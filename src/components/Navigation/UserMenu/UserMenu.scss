@@ -1,0 +1,17 @@
+.menu-toggle-anchor {
+  width: 24px;
+  height: 24px;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+
+  & > svg {
+    margin: unset !important;
+  }
+}
+
+.menu-toggle-list {
+  & .dropdown-item {
+    cursor: pointer;
+  }
+}
