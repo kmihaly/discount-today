@@ -1,15 +1,18 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+// https://www.toptal.com/react/webpack-react-tutorial-pt-1
 module.exports = {
   output: {
     path: path.join(__dirname, "/dist"),
     filename: "bundle.js",
+    publicPath: "/",
     //path: path.resolve(__dirname, 'dist'),
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/index.html",
+      inject: true
     }),
   ],
   devServer: {
