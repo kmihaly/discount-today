@@ -4,10 +4,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 // https://www.toptal.com/react/webpack-react-tutorial-pt-1
 module.exports = {
   output: {
-    path: path.join(__dirname, "/dist"),
-    filename: "bundle.js",
-    publicPath: "/",
-    //path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist'),
+    filename: "[name].bundle.js",
+    clean: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -20,7 +19,7 @@ module.exports = {
     historyApiFallback: true,
     open: true,
   },
-  devtool: "inline-source-map",
+  //devtool: "inline-source-map",
   module: {
     rules: [
       {
