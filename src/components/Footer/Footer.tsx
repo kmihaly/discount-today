@@ -1,3 +1,4 @@
+import React from "react";
 import { CContainer, CNavLink } from "@coreui/react";
 
 const Footer = (): JSX.Element => {
