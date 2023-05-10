@@ -1,4 +1,3 @@
-import React from "react";
 import { CAlert, CCol, CContainer, CNavLink, CRow } from "@coreui/react";
 
 const Page500 = (): JSX.Element => {

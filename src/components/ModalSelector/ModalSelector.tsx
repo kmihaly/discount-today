@@ -1,5 +1,3 @@
-import React from "react";
-
 import { LoginModal, PreferencesModal, RegistrationModal, UserDataModal } from "./modals";
 import { ModalEnum, ModalProps } from "../../interfaces/Modal.interface";
 

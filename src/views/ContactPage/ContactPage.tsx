@@ -1,4 +1,3 @@
-import React from "react";
 import CIcon from "@coreui/icons-react";
 import { CTable, CTableBody, CTableDataCell, CTableRow } from "@coreui/react";
 import { cilLocationPin, cilPhone, cilEnvelopeClosed } from "@coreui/icons";

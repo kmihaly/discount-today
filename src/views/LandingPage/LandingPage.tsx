@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import { Footer, PageLoader, ShopLogoContainer } from "../../components";
 import { CCol, CContainer, CRow } from "@coreui/react";
 import ActionCard from "./ActionCard/ActionCard";

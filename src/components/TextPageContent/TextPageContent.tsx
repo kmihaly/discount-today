@@ -1,4 +1,3 @@
-import React from "react";
 import { CCard, CCardBody, CCardTitle, CContainer } from "@coreui/react";
 
 import Footer from "../Footer";
