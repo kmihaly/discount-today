@@ -1,10 +1,5 @@
-import { ReactElement, createContext, useState } from "react";
-
-interface Auth {
-    user: number,
-    accessToken: string,
-    refreshToken: string
-}
+import { Dispatch, SetStateAction, createContext, useState } from "react";
+import { Auth } from "../interfaces/auth.interface";
 
 interface AuthProviderProps {
     children: React.ReactNode
@@ -12,11 +7,11 @@ interface AuthProviderProps {
 
 interface AuthProviderValues {
     auth: Auth,
-    setAuth: (auth: Auth) => void
+    setAuth: Dispatch<SetStateAction<Auth>>
 }
 
 
-const AuthContext = createContext<AuthProviderValues | null>(null);
+const AuthContext = createContext<AuthProviderValues | null>({ auth: null, setAuth: null});
 
 export const AuthProvider = ({ children }: AuthProviderProps)  => {
     const [auth, setAuth] = useState<Auth>(null);

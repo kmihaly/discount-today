@@ -1,5 +1,5 @@
 import { LoginModal, PreferencesModal, RegistrationModal, UserDataModal } from "./modals";
-import { ModalEnum, ModalProps } from "../../interfaces/Modal.interface";
+import { ModalEnum, ModalProps } from "../../interfaces/modal.interface";
 
 const ModalSelector = ({ closeModal, modalVisible, typeRef }: ModalProps): JSX.Element => {
   switch (typeRef.current) {

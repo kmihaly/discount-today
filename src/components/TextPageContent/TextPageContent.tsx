@@ -1,6 +1,6 @@
 import { CCard, CCardBody, CCardTitle, CContainer } from "@coreui/react";
 
-import Footer from "../Footer";
+import { Footer } from "../index";
 
 import "./TextPageContent.scss";
 

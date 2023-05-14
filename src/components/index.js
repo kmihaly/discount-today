@@ -1,5 +1,5 @@
 import ErrorBoundary from "./ErrorBoundary";
-import Footer from "./Footer";
+import Footer from "./Footer/Footer";
 import ModalSelector from "./ModalSelector/ModalSelector";
 import Navigation from "./Navigation";
 import PageLoader from "./PageLoader/PageLoader";
