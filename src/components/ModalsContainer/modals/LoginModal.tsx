@@ -20,11 +20,11 @@ import {
 } from "@coreui/react";
 import { cilLockLocked, cilUser } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
-import { ModalProps } from "../../../interfaces";
-import useAuth from '../../../hooks/useAuth';
-import { axiosPublic } from '../../../api/axios';
 
-const LOGIN_URL = '/api/token';
+import apiUrl from '../../../constants/apiUrl.constant';
+import useAuth from '../../../hooks/useAuth';
+import { ModalProps } from "../../../interfaces";
+import { axiosPublic } from '../../../api/axios';
 
 const LoginModal = ({ closeModal, size, modalVisible }: ModalProps) => {
 
@@ -47,7 +47,7 @@ const LoginModal = ({ closeModal, size, modalVisible }: ModalProps) => {
 
     try {
 
-      const response = await axiosPublic.post(LOGIN_URL,
+      const response = await axiosPublic.post(apiUrl.login,
         JSON.stringify({ username, password }),
         {
           headers: { 'Content-Type': 'application/json' },
@@ -61,8 +61,7 @@ const LoginModal = ({ closeModal, size, modalVisible }: ModalProps) => {
       setAuth({ username, password, accessToken: access, refreshToken: refresh });
       setUsername('');
       setPassword('');
-      navigate(from, { replace: true });
-
+      closeModal();
     } catch (err) {
 
       if (!err?.response) {
@@ -85,12 +84,10 @@ const LoginModal = ({ closeModal, size, modalVisible }: ModalProps) => {
 
   useEffect(() => {
     setErrorMessage('');
-    console.log(username, password)
   }, [username, password])
 
   return (
-    <CModal visible={modalVisible} size={size} onClose={closeModal}>
-      
+    <CModal visible={modalVisible} size={size} onClosePrevented={closeModal}>
       <CCardGroup>
         <CCard className="p-4">
           <CCardBody>

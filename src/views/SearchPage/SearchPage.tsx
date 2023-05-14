@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import { CContainer } from "@coreui/react";
 
 import { Footer, ShopLogoContainer } from "../../components";
-import SearchBar from "./SearchBar/SearchBar";
+import SideBar from "./SideBar/SideBar";
 import OfferCard from "./OfferCard/OfferCard";
 import OfferData from "./Offer.interface";
 
 const SearchPage = () => {
   //const offers: OfferData[] = [];
-
+  const { sidebarVisible } = useOutletContext<{ sidebarVisible: boolean }>();
   const [fakeOfferList, setFakeOfferList] = useState([]);
 
   useEffect(() => {
@@ -34,18 +35,17 @@ const SearchPage = () => {
   }, []);
 
   return (
-    <div className="flex-fill d-flex flex-column">
+    <div className="flex-fill d-flex overflow-auto">
+      <SideBar sidebarShow={sidebarVisible} />
       <main className="flex-fill d-flex flex-column">
-        <SearchBar />
         <CContainer lg className="flex-fill d-flex justify-content-center flex-wrap">
           {fakeOfferList.map((offer, index) => (
             <OfferCard key={`offer-${index}`} offerData={offer} />
           ))}
         </CContainer>
-        <ShopLogoContainer />
+        <Footer />
       </main>
-      <Footer />
-    </div>
+    </div >
   );
 };
 

@@ -16,8 +16,9 @@ import { ModalProps } from "../../../interfaces";
 
 const RegistrationModal = ({ closeModal, modalVisible }: ModalProps) => {
   return (
-    <CModal visible={modalVisible} onClose={closeModal}>
-      {/* <CModalHeader closeButton>
+    <CModal visible={modalVisible}>
+      {/*  onClose={closeModal}
+      <CModalHeader closeButton>
                 <CModalTitle>{title}</CModalTitle>
             </CModalHeader> */}
       <CModalBody>

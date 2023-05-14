@@ -1,29 +1,46 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { Outlet } from "react-router-dom";
 
-import { Navigation, ModalSelector } from "../components";
-import { ModalEnum } from "../interfaces";
+import { Navigation, ModalsContainer } from "../components";
+import { ModalEnum, ModalsVisibility } from "../interfaces";
+
+const INITIAL_MODALS_VISIBILITY = {
+  [ModalEnum.login]: false,
+  [ModalEnum.userData]: false,
+  [ModalEnum.preferences]: false,
+  [ModalEnum.registration]: false,
+};
 
 const DefaultLayout = (): JSX.Element => {
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const modalTypeRef = useRef(ModalEnum.registration);
+  const [sidebarVisible, setSidebarVisible] = useState<boolean>(false);
+  const [modalsVisibility, setModalsVisibility] = useState<ModalsVisibility>(INITIAL_MODALS_VISIBILITY);
 
-  const activateModal = useCallback((modalType: ModalEnum): boolean => {
-    modalTypeRef.current = ModalEnum[modalType];
-    setModalVisible(true);
-    return false;
+  const closeModal = useCallback(() => setModalsVisibility(INITIAL_MODALS_VISIBILITY), []);
+
+  const toggleSidebar = (state?: boolean) => {
+    if (typeof state === 'boolean') {
+      setSidebarVisible(state);
+      return;
+    }
+    setSidebarVisible(!sidebarVisible);
+  }
+
+  const openModal = useCallback((modalType: ModalEnum) => {
+    setModalsVisibility({
+      ...INITIAL_MODALS_VISIBILITY,
+      [modalType]: true
+    })
   }, []);
 
   return (
     <>
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
-        <Navigation activateModal={activateModal} />
-        <Outlet context={{ activateModal }} />
+        <Navigation openModal={openModal} toggleSidebar={toggleSidebar}/>
+        <Outlet context={{ openModal , sidebarVisible }} />
       </div>
-      <ModalSelector
-        modalVisible={modalVisible}
-        closeModal={() => setModalVisible(false)}
-        typeRef={modalTypeRef}
+      <ModalsContainer
+        modalsVisibility={modalsVisibility}
+        closeModal={closeModal}
       />
     </>
   );

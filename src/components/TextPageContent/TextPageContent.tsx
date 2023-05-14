@@ -16,7 +16,7 @@ const TextPageContent = ({ title, children }: TextPageContentProps): JSX.Element
         <CContainer sm={true} className="py-5 text-page-container">
           <CCard>
             <CCardBody>
-              <CCardTitle>{title}</CCardTitle>
+              <h1>{title}</h1>
               {children}
             </CCardBody>
           </CCard>

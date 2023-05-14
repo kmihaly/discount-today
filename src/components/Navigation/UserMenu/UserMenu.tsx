@@ -27,10 +27,14 @@ import "./UserMenu.scss";
 import { ModalEnum } from "../../../interfaces";
 
 const UserMenu = ({
-  activateModal,
+  openModal,
 }: {
-  activateModal: (modalType: ModalEnum) => boolean;
+  openModal: (modalType: ModalEnum) => void;
 }): JSX.Element => {
+
+  const isStaff = true;
+
+
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle className="py-0 menu-toggle-anchor" caret={false}>
@@ -38,33 +42,34 @@ const UserMenu = ({
         <CIcon icon={cilUser} className="me-2" />
       </CDropdownToggle>
       <CDropdownMenu className="pt-0 menu-toggle-list" placement="bottom-end">
+
         <CDropdownHeader className="bg-light fw-semibold py-2">
           Felhasználó beállítások
         </CDropdownHeader>
-        <CDropdownItem onClick={() => activateModal(ModalEnum.userData)}>
+        <CDropdownItem onClick={() => openModal(ModalEnum.userData)}>
           {/* href="#"  */}
           <CIcon icon={cilUser} className="me-2" />
           Adatok
         </CDropdownItem>
-        <CDropdownItem onClick={() => activateModal(ModalEnum.preferences)}>
+        <CDropdownItem onClick={() => openModal(ModalEnum.preferences)}>
           <CIcon icon={cilEnvelopeOpen} className="me-2" />
           Hírlevél, keresési beállítások
         </CDropdownItem>
-        {/* <CDropdownItem href="#">
-          <CIcon icon={cilCreditCard} className="me-2" />
-          Payments
-          <CBadge color="secondary" className="ms-2">
-            42
-          </CBadge>
-        </CDropdownItem>
-        <CDropdownItem href="#">
-          <CIcon icon={cilFile} className="me-2" />
-          Projects
-          <CBadge color="primary" className="ms-2">
-            42
-          </CBadge>
-        </CDropdownItem> */}
         <CDropdownDivider />
+        {
+          isStaff &&
+          <>
+            <CDropdownHeader className="bg-light fw-semibold py-2">
+              Boltok kezelése
+            </CDropdownHeader>
+            <CDropdownItem onClick={() => openModal(ModalEnum.userData)}>
+              {/* href="#"  */}
+              <CIcon icon={cilSettings} className="me-2" />
+              Boltok
+            </CDropdownItem>
+            <CDropdownDivider />
+          </>
+        }
         <CDropdownItem href="#">
           <CIcon icon={cilExitToApp} className="me-2" />
           Kilépés

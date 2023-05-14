@@ -1,5 +1,3 @@
-import { MutableRefObject } from "react";
-
 enum ModalEnum {
   userData = "userData",
   login = "login",
@@ -7,11 +5,17 @@ enum ModalEnum {
   registration = "registration",
 }
 
+interface ModalsVisibility {
+  [ModalEnum.login]: boolean,
+  [ModalEnum.userData]: boolean,
+  [ModalEnum.preferences]: boolean,
+  [ModalEnum.registration]: boolean,
+}
+
 interface ModalProps {
   closeModal: () => void;
   modalVisible: boolean;
   size?: "sm" | "lg" | "xl";
-  typeRef?: MutableRefObject<ModalEnum>;
 }
 
-export { ModalEnum, ModalProps };
+export { ModalEnum, ModalProps, ModalsVisibility };

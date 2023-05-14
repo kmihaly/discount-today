@@ -27,13 +27,7 @@ const App = (): JSX.Element => {
             <Route
               path="search"
               element={
-                <Suspense
-                  fallback={
-                    <div>
-                      <CSpinner />
-                    </div>
-                  }
-                >
+                <Suspense fallback={<div><CSpinner /></div>}>
                   <SearchPage />
                 </Suspense>
               }

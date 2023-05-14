@@ -1,0 +1,13 @@
+.sidebar-toggler-button {
+    border: 1px solid rgba(0, 0, 21, 0.1) !important;
+
+    &:focus {
+        text-decoration: none;
+        outline: 0;
+        box-shadow: 0 0 0 .25rem;
+    }
+
+    &:focus:not(:focus-visible) {
+        outline: 0;
+    }
+}

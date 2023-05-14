@@ -5,8 +5,12 @@ import {
   CCollapse,
   CContainer,
   CForm,
+  CFormFloating,
   CFormInput,
+  CFormLabel,
+  CFormSelect,
   CHeaderNav,
+  CHeaderToggler,
   CNavItem,
   CNavLink,
   CNavbar,
@@ -15,23 +19,41 @@ import {
   CNavbarToggler,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
-import { cilDoor, cibFacebook, cibInstagram, cibReact } from "@coreui/icons";
+import { cilDoor, cibFacebook, cibInstagram, cilMagnifyingGlass, cibReact } from "@coreui/icons";
+
+import UserMenu from "./UserMenu/UserMenu";
+import useAuth from "../../hooks/useAuth";
+import { ModalEnum } from "../../interfaces";
+import { useLocation } from "react-router-dom";
 
 import "./Navigation.scss";
-import UserMenu from "./UserMenu/UserMenu";
-import { ModalEnum } from "../../interfaces";
+
 
 interface NavigationProps {
-  activateModal: (modalType: ModalEnum) => boolean;
+  openModal: (modalType: ModalEnum) => void;
+  toggleSidebar: (state?: boolean) => void
 }
 
-const Navigation = ({ activateModal }: NavigationProps): JSX.Element => {
+const Navigation = ({ openModal, toggleSidebar }: NavigationProps): JSX.Element => {
+  const { isLoggedIn } = useAuth();
   const [visible, setVisible] = useState(false);
+  const { pathname } = useLocation();
+
+  const isSearchPage = pathname.includes("search");
   // TODO: active element to be set
 
   return (
-    <CNavbar expand="lg" colorScheme="light" className="bg-warning">
+    <CNavbar expand="lg" colorScheme="light" className="border-bottom">
       <CContainer fluid>
+        {
+          isSearchPage &&
+          <CHeaderToggler
+            className="ms-1 me-3 px-3 py-1 rounded sidebar-toggler-button"
+            onClick={(e) => toggleSidebar()}
+          >
+            <CIcon icon={cilMagnifyingGlass} size="lg" />
+          </CHeaderToggler>
+        }
         <CNavbarBrand href="/">
           {/* <img
           src={CoreUISignetImg}
@@ -51,11 +73,14 @@ const Navigation = ({ activateModal }: NavigationProps): JSX.Element => {
               <CNavLink href="good-for-you">Miért jó Neked itt?</CNavLink>
             </CNavItem>
             <div className="flex-fill"></div>
-            <CNavItem className="me-4">
-              <CButton color="primary" onClick={() => activateModal(ModalEnum.registration)}>
-                Regisztráció
-              </CButton>
-            </CNavItem>
+            {
+              !isLoggedIn &&
+              <CNavItem className="me-4">
+                <CButton color="primary" onClick={() => openModal(ModalEnum.registration)}>
+                  Regisztráció
+                </CButton>
+              </CNavItem>
+            }
             <CNavItem className="me-4">
               <CForm className="d-flex">
                 <CFormInput type="search" className="me-2" placeholder="Áruház, étterem..." />
@@ -71,15 +96,21 @@ const Navigation = ({ activateModal }: NavigationProps): JSX.Element => {
           <CNavbarBrand className="d-flex align-items-center" href="#">
             <CIcon icon={cibInstagram} height={24} />
           </CNavbarBrand>
-          <CButton className="me-4" color="primary" onClick={() => activateModal(ModalEnum.login)}>
-            <CIcon icon={cilDoor} height={24} />
-            Belépés
-          </CButton>
-          <CHeaderNav>
-            <CBadge color="primary" shape="rounded-pill">
-              <UserMenu activateModal={activateModal} />
-            </CBadge>
-          </CHeaderNav>
+          {
+            !isLoggedIn &&
+            <CButton className="me-4" color="primary" onClick={() => openModal(ModalEnum.login)}>
+              <CIcon icon={cilDoor} height={24} className="pe-1" />
+              Belépés
+            </CButton>
+          }
+          {
+            isLoggedIn &&
+            <CHeaderNav>
+              <CBadge color="primary" shape="rounded-pill">
+                <UserMenu openModal={openModal} />
+              </CBadge>
+            </CHeaderNav>
+          }
         </CCollapse>
       </CContainer>
     </CNavbar>
