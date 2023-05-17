@@ -21,7 +21,7 @@ const LandingPage = (): JSX.Element => {
                 <ActionCard className="bg-warning" title="GYORSÉTTERMEK AKCIÓI" href="/search" />
               </CCol>
               <CCol xs={12} md={6} lg={4}>
-                <ActionCard className="bg-success" title="TOP5 AKCIÓ" href="/search" />
+                <ActionCard className="bg-success" title="NAPI TOP 5 AKCIÓ" href="/search" />
               </CCol>
             </CRow>
           </CContainer>

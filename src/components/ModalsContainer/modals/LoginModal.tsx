@@ -73,13 +73,13 @@ const LoginModal = ({ closeModal, size, modalVisible }: ModalProps) => {
       } else {
         setErrorMessage('Login Failed');
       }
-      errRef.current.focus();
+      errRef?.current?.focus();
 
     }
   }
 
   useEffect(() => {
-    usernameRef.current.focus();
+    usernameRef?.current?.focus();
   }, [])
 
   useEffect(() => {
@@ -87,7 +87,7 @@ const LoginModal = ({ closeModal, size, modalVisible }: ModalProps) => {
   }, [username, password])
 
   return (
-    <CModal visible={modalVisible} size={size} onClosePrevented={closeModal}>
+    <CModal visible={modalVisible} size={size} onClose={closeModal}>
       <CCardGroup>
         <CCard className="p-4">
           <CCardBody>

@@ -13,7 +13,7 @@ interface AuthProviderValues {
 
 const AuthContext = createContext<AuthProviderValues | null>({ auth: null, setAuth: null});
 
-export const AuthProvider = ({ children }: AuthProviderProps)  => {
+export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element  => {
     const [auth, setAuth] = useState<Auth>(null);
 
     return (

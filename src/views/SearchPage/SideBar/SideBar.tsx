@@ -1,3 +1,4 @@
+import { useContext, useState } from "react";
 import CIcon from "@coreui/icons-react";
 import {
   CButton,
@@ -10,7 +11,23 @@ import {
 } from "@coreui/react";
 import { cilListNumbered, cilMagnifyingGlass, cilStar, cilWalk } from "@coreui/icons";
 
+import BaseContext from "../../../contexts/BaseProvider";
+
 import "./SideBar.scss";
+import { BaseProviderData } from "../../../interfaces";
+
+interface SearchCondition {
+  storeType: { name: string, id: string },
+}
+
+const ALL_STORETYPE_OPTION = { name: 'Összes', id: 'all' };
+const ALL_STORETYPE_OPTION2 = { name: 'Összes2', id: 'all2' };
+const ALL_STORETYPE_OPTION3 = { name: 'Összes3', id: 'all3' };
+
+
+const INITIAL_SEARCH_CONDITIONS = {
+  storeType: ALL_STORETYPE_OPTION
+}
 
 const shops = [
   { name: "Mindegyik", value: "all" },
@@ -26,9 +43,24 @@ interface SideBarProps {
 const SideBar = ({
   sidebarShow
 }: SideBarProps) => {
+
+  const [searchConditions, setSearchConditions] = useState<SearchCondition>(INITIAL_SEARCH_CONDITIONS)
+  console.log('searchConditions: ', searchConditions);
+  const { baseData } = useContext<BaseProviderData>(BaseContext);
+
+  const allStoreTypes = [ALL_STORETYPE_OPTION, ALL_STORETYPE_OPTION2, ALL_STORETYPE_OPTION3];
+
+  if (baseData?.storeTypes?.length) {
+    allStoreTypes.concat(baseData.storeTypes);
+  }
+
+  const handleStoreTypeSelector = (val: string): void => {
+      setSearchConditions((sc) => ({ ...sc, storeType: allStoreTypes?.find(s_type => s_type.id === val )}));
+  };
+
   return (
     <CSidebar
-      className="p-4"
+      className="p-3"
       color="dark"
       position="sticky"
       unfoldable={false}
@@ -42,11 +74,11 @@ const SideBar = ({
       <CFormFloating className="mb-3">
         <CFormSelect
           aria-label="Bolttípus-választó"
+          onChange={e => handleStoreTypeSelector(e.currentTarget?.value)}
+          value={searchConditions.storeType.id}
           id="store-or-restaurant"
         >
-          <option value="all">Összes</option>
-          <option value="food-store-only">Csak élelmiszeráruház</option>
-          <option value="fast-food-only">Csak gyorsétterem</option>
+          {allStoreTypes?.map(storeType => <option key={`store-type-${storeType.id}`} value={storeType.id}>{storeType.name}</option>)}
         </CFormSelect>
         <CFormLabel className="text-dark" htmlFor="store-or-restaurant">Bolttípus</CFormLabel>
       </CFormFloating>
@@ -62,19 +94,6 @@ const SideBar = ({
           ))}
         </CFormSelect>
         <CFormLabel className="text-dark" htmlFor="shop-selector">Bolthálózat</CFormLabel>
-      </CFormFloating>
-      <CFormFloating className="mb-3">
-        <CFormSelect
-          aria-label="Boltválasztó"
-          id="shop-selector"
-        >
-          {shops.map((shop, index) => (
-            <option key={`shop-${index}`} value={shop.value}>
-              {shop.name}
-            </option>
-          ))}
-        </CFormSelect>
-        <CFormLabel className="text-dark" htmlFor="shop-selector">Bolt</CFormLabel>
       </CFormFloating>
       <CButton className="mb-3">
         <CIcon icon={cilMagnifyingGlass} className="me-1" />

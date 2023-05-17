@@ -3,6 +3,7 @@ import {
   CCard,
   CCardBody,
   CCardGroup,
+  CCardHeader,
   CCardImage,
   CCardText,
   CCardTitle,
@@ -11,6 +12,8 @@ import {
 //import CIcon from '@coreui/icons-react';
 
 import OfferData from "../Offer.interface";
+
+import "./OfferCard.scss";
 
 interface OfferCardProps {
   offerData: Omit<OfferData, "storeName">;
@@ -30,13 +33,14 @@ const OfferCard = ({ offerData }: OfferCardProps) => {
   } = offerData;
 
   return (
-    <CCardGroup className="m-3" style={{ width: "30rem" }}>
-      <CCard className="p-4">
+    <CCard className="m-3" style={{ width: "30rem" }}>
+    <CCardHeader>{offerName}</CCardHeader>
+    <CCardGroup className="card-group-border">    
+      <CCard className="p-4 flex-fill">
         <CCardImage src={image} />
       </CCard>
-      <CCard className="text-white bg-success py-5" style={{ width: "44%" }}>
+      <CCard className="text-white bg-success py-5" style={{ width: "10rem", flex: 'unset' }}>
         <CCardBody>
-          <CCardTitle>{offerName}</CCardTitle>
           <CCardText>
             {`${formatToHungarianDate(validFrom)} - ${formatToHungarianDate(validTo)}`}
           </CCardText>
@@ -47,6 +51,7 @@ const OfferCard = ({ offerData }: OfferCardProps) => {
         </CCardBody>
       </CCard>
     </CCardGroup>
+    </CCard>
   );
 };
 

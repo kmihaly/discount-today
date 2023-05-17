@@ -1,0 +1,11 @@
+.card-group-border {
+    border-radius: 0 0 .375rem .375rem !important;
+
+    & > .card:nth-child(1) {
+        border-radius: 0 0 0 .375rem !important;
+    }
+
+    & > .card:nth-child(2) {
+        border-radius: 0 0 .375rem 0 !important;
+    }
+}

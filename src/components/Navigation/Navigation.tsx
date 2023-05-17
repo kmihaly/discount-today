@@ -19,12 +19,12 @@ import {
   CNavbarToggler,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
-import { cilDoor, cibFacebook, cibInstagram, cilMagnifyingGlass, cibReact } from "@coreui/icons";
+import { cilDoor, cibFacebook, cibInstagram, cilMagnifyingGlass, cibReact, cilPen } from "@coreui/icons";
 
 import UserMenu from "./UserMenu/UserMenu";
 import useAuth from "../../hooks/useAuth";
 import { ModalEnum } from "../../interfaces";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import "./Navigation.scss";
 
@@ -35,25 +35,35 @@ interface NavigationProps {
 }
 
 const Navigation = ({ openModal, toggleSidebar }: NavigationProps): JSX.Element => {
-  const { isLoggedIn } = useAuth();
+
   const [visible, setVisible] = useState(false);
+  const navigate = useNavigate()
+  const { isLoggedIn } = useAuth();
   const { pathname } = useLocation();
 
-  const isSearchPage = pathname.includes("search");
+  //const isSearchPage = pathname.includes("search");
   // TODO: active element to be set
+
+  const handleToggler = () => {
+    if (!pathname.includes("search")) {
+      navigate("/search");
+    }
+    toggleSidebar();
+  };
 
   return (
     <CNavbar expand="lg" colorScheme="light" className="border-bottom">
       <CContainer fluid>
-        {
-          isSearchPage &&
-          <CHeaderToggler
-            className="ms-1 me-3 px-3 py-1 rounded sidebar-toggler-button"
-            onClick={(e) => toggleSidebar()}
-          >
-            <CIcon icon={cilMagnifyingGlass} size="lg" />
-          </CHeaderToggler>
-        }
+        {/* {
+          isSearchPage && */}
+        <CHeaderToggler
+          className="ms-1 me-3 px-3 py-1 rounded sidebar-toggler-button"
+          onClick={handleToggler}
+        >
+          {/* (e) => toggleSidebar() */}
+          <CIcon icon={cilMagnifyingGlass} size="lg" />
+        </CHeaderToggler>
+        {/* } */}
         <CNavbarBrand href="/">
           {/* <img
           src={CoreUISignetImg}
@@ -70,25 +80,33 @@ const Navigation = ({ openModal, toggleSidebar }: NavigationProps): JSX.Element 
         <CCollapse className="navbar-collapse" visible={visible}>
           <CNavbarNav className="flex-fill">
             <CNavItem>
-              <CNavLink href="good-for-you">Miért jó Neked itt?</CNavLink>
+              <CNavLink href="good-for-you">Miért jó itt Neked?</CNavLink>
             </CNavItem>
             <div className="flex-fill"></div>
             {
               !isLoggedIn &&
               <CNavItem className="me-4">
                 <CButton color="primary" onClick={() => openModal(ModalEnum.registration)}>
+                <CIcon icon={cilPen} height={24} className="pe-1" />
                   Regisztráció
                 </CButton>
               </CNavItem>
             }
-            <CNavItem className="me-4">
+            {
+              !isLoggedIn &&
+              <CButton className="me-4" color="primary" onClick={() => openModal(ModalEnum.login)}>
+                <CIcon icon={cilDoor} height={24} className="pe-1" />
+                Belépés
+              </CButton>
+            }
+            {/* <CNavItem className="me-4">
               <CForm className="d-flex">
                 <CFormInput type="search" className="me-2" placeholder="Áruház, étterem..." />
                 <CButton type="submit" color="primary">
                   Keresés
                 </CButton>
               </CForm>
-            </CNavItem>
+            </CNavItem> */}
           </CNavbarNav>
           <CNavbarBrand className="d-flex align-items-center" href="#">
             <CIcon icon={cibFacebook} height={24} />
@@ -96,13 +114,6 @@ const Navigation = ({ openModal, toggleSidebar }: NavigationProps): JSX.Element 
           <CNavbarBrand className="d-flex align-items-center" href="#">
             <CIcon icon={cibInstagram} height={24} />
           </CNavbarBrand>
-          {
-            !isLoggedIn &&
-            <CButton className="me-4" color="primary" onClick={() => openModal(ModalEnum.login)}>
-              <CIcon icon={cilDoor} height={24} className="pe-1" />
-              Belépés
-            </CButton>
-          }
           {
             isLoggedIn &&
             <CHeaderNav>

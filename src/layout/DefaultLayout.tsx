@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 
 import { Navigation, ModalsContainer } from "../components";
 import { ModalEnum, ModalsVisibility } from "../interfaces";
+import { AuthProvider, BaseProvider } from "../contexts";
 
 const INITIAL_MODALS_VISIBILITY = {
   [ModalEnum.login]: false,
@@ -33,16 +34,18 @@ const DefaultLayout = (): JSX.Element => {
   }, []);
 
   return (
-    <>
-      <div className="wrapper d-flex flex-column min-vh-100 bg-light">
-        <Navigation openModal={openModal} toggleSidebar={toggleSidebar}/>
-        <Outlet context={{ openModal , sidebarVisible }} />
-      </div>
-      <ModalsContainer
-        modalsVisibility={modalsVisibility}
-        closeModal={closeModal}
-      />
-    </>
+    <AuthProvider>
+      <BaseProvider>
+        <div className="wrapper d-flex flex-column min-vh-100 bg-light">
+          <Navigation openModal={openModal} toggleSidebar={toggleSidebar} />
+          <Outlet context={{ openModal, sidebarVisible }} />
+        </div>
+        <ModalsContainer
+          modalsVisibility={modalsVisibility}
+          closeModal={closeModal}
+        />
+      </BaseProvider>
+    </AuthProvider>
   );
 };
 

@@ -17,13 +17,6 @@ const ContactPage = () => {
           <CTableBody>
             <CTableRow>
               <CTableDataCell>
-                <CIcon icon={cilLocationPin} className="me-2" />
-                Székhely:
-              </CTableDataCell>
-              <CTableDataCell></CTableDataCell>
-            </CTableRow>
-            <CTableRow>
-              <CTableDataCell>
                 <CIcon icon={cilPhone} className="me-2" />
                 Telefon:
               </CTableDataCell>

@@ -18,7 +18,7 @@ const SearchPage = () => {
     const fakeData = {
       offerName: "50% leértékelés a SPAR-nál!",
       description:
-        "Odio aenean sed adipiscing diam donec. Id semper risus in hendrerit gravida rutrum quisque non tellus. In nulla posuere sollicitudin aliquam. Urna nec tincidunt praesent semper feugiat nibh sed pulvinar proin.",
+        "Odio aenean sed adipiscing diam donec. Id semper risus in hendrerit gravida rutrum quisque non tellus.",
       image:
         "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/WTSB_Obersch%C3%BCtzen_Spar_Tatzmannsdorferstra%C3%9Fe_51.jpg/1280px-WTSB_Obersch%C3%BCtzen_Spar_Tatzmannsdorferstra%C3%9Fe_51.jpg",
       offerHref: "https://www.spar.hu/",
