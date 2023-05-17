@@ -18,7 +18,8 @@ const getBaseData = async (endpoint: string) => {
     const response = await axiosPublic.get(endpoint, {
         withCredentials: true
     });
-    return response.data;
+    console.log('JSON.parse(response.data): ', JSON.parse(response.data));
+    return JSON.parse(response.data);
 };
 
 

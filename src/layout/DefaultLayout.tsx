@@ -34,7 +34,7 @@ const DefaultLayout = (): JSX.Element => {
   }, []);
 
   return (
-    <AuthProvider>
+    // <AuthProvider>
       <BaseProvider>
         <div className="wrapper d-flex flex-column min-vh-100 bg-light">
           <Navigation openModal={openModal} toggleSidebar={toggleSidebar} />
@@ -45,7 +45,7 @@ const DefaultLayout = (): JSX.Element => {
           closeModal={closeModal}
         />
       </BaseProvider>
-    </AuthProvider>
+    // </AuthProvider>
   );
 };
 

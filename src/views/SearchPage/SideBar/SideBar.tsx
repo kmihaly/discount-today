@@ -21,9 +21,6 @@ interface SearchCondition {
 }
 
 const ALL_STORETYPE_OPTION = { name: 'Összes', id: 'all' };
-const ALL_STORETYPE_OPTION2 = { name: 'Összes2', id: 'all2' };
-const ALL_STORETYPE_OPTION3 = { name: 'Összes3', id: 'all3' };
-
 
 const INITIAL_SEARCH_CONDITIONS = {
   storeType: ALL_STORETYPE_OPTION
@@ -48,7 +45,7 @@ const SideBar = ({
   console.log('searchConditions: ', searchConditions);
   const { baseData } = useContext<BaseProviderData>(BaseContext);
 
-  const allStoreTypes = [ALL_STORETYPE_OPTION, ALL_STORETYPE_OPTION2, ALL_STORETYPE_OPTION3];
+  const allStoreTypes = [ALL_STORETYPE_OPTION];
 
   if (baseData?.storeTypes?.length) {
     allStoreTypes.concat(baseData.storeTypes);
