@@ -1,18 +1,15 @@
 import { CCol } from "@coreui/react";
-import { useContext } from "react";
 
 import ActionCard from "./ActionCard/ActionCard";
-import BaseContext from "../../contexts/BaseProvider";
-import { BaseProviderData } from "../../interfaces";
+import { OutletContextData } from "../../interfaces";
 import { useOutletContext } from "react-router-dom";
 
-const Top5Card = () => {
-  const { toggleSidebar } = useOutletContext<{ toggleSidebar: (state: boolean) => void }>();
-  const { getTopFiveAction } = useContext<BaseProviderData>(BaseContext);
-  
+const Top5Card = ({ shouldSetActionCards }: { shouldSetActionCards: boolean }): JSX.Element => {
+  const { setShowTop5Search, toggleSidebar } = useOutletContext<OutletContextData>();
+
   const handleClick = () => {
     toggleSidebar(true);
-    getTopFiveAction();
+    setShowTop5Search(true);
   }
 
   return (
@@ -20,6 +17,7 @@ const Top5Card = () => {
       <ActionCard
         className="card-3 text-dark"
         onClick={handleClick}
+        shouldSetActionCards={shouldSetActionCards}
         title="NAPI TOP 5 AKCIÓ"
         href="/search"
       />

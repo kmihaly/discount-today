@@ -51,13 +51,13 @@ const Navigation = ({ openModal, toggleSidebar }: NavigationProps): JSX.Element 
   };
 
   useEffect(() => {
-    const handleResize = () => {
+    const measureWindowForNavbar = () => {
       setIsNavbarExpanded(window.innerWidth >= 992);
     };
 
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener("resize", measureWindowForNavbar);
+    measureWindowForNavbar();
+    return () => window.removeEventListener("resize", measureWindowForNavbar);
   }, []);
 
   return (

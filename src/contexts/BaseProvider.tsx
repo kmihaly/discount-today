@@ -8,7 +8,7 @@ import {
   Offer,
   OfferCondition,
 } from "../interfaces";
-import { INITIAL_BASE_DATA, INITIAL_OFFER_CONDITIONS } from "../constants/baseData.constant";
+import { INITIAL_BASE_DATA, INITIAL_OFFER_CONDITION, INITIAL_SEARCH_CONDITION } from "../constants/baseData.constant";
 import { SearchCondition } from "../interfaces/baseData.interface";
 
 interface BaseProviderProps {
@@ -17,12 +17,6 @@ interface BaseProviderProps {
   setError: React.Dispatch<React.SetStateAction<Error>>
   setErrorToastVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-const INITIAL_SEARCH_CONDITION: SearchCondition = {
-  city: INITIAL_BASE_DATA.cities[0],
-  storeType: INITIAL_BASE_DATA.storeTypes[0],
-  storeGroup: INITIAL_BASE_DATA.storeGroups[0],
-};
 
 const BaseContext = createContext<BaseProviderData>({
   baseData: INITIAL_BASE_DATA,
@@ -95,7 +89,7 @@ export const BaseProvider = ({
       getBaseData(apiURL.storeTypes),
       getBaseData(apiURL.storeGroups),
       getBaseData(apiURL.cities),
-      getOffers(INITIAL_OFFER_CONDITIONS),
+      getOffers(INITIAL_OFFER_CONDITION),
     ]);
 
     allPromise

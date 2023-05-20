@@ -3,6 +3,7 @@ import CIcon from "@coreui/icons-react";
 import {
   CButton,
   CDropdownDivider,
+  CFormCheck,
   CFormFloating,
   CFormLabel,
   CFormSelect,
@@ -13,23 +14,24 @@ import { cilListNumbered, cilStar, cilWalk } from "@coreui/icons";
 
 import BaseContext from "../../../contexts/BaseProvider";
 import useAuth from "../../../hooks/useAuth";
-import { BaseProviderData } from "../../../interfaces";
+import { BaseProviderData, OutletContextData } from "../../../interfaces";
 
 import "./SideBar.scss";
+import { useOutletContext } from "react-router-dom";
+import { INITIAL_OFFER_CONDITION, INITIAL_SEARCH_CONDITION } from "../../../constants/baseData.constant";
 
 interface SideBarProps {
   sidebarShow: boolean;
 }
 
 const SideBar = ({ sidebarShow }: SideBarProps) => {
+  const { setShowTop5Search, showTop5Search } = useOutletContext<OutletContextData>();
+
   const { baseData, fetchOffers, getTopFiveAction, isLoadingBaseData, searchCondition, setSearchCondition } =
     useContext<BaseProviderData>(BaseContext);
   const { cities, storeGroups, storeTypes } = baseData;
   const { city, storeGroup, storeType } = searchCondition;
 
-  console.log("baseData: ", baseData);
-
-  console.log("searchCondition: ", searchCondition);
   const { isLoggedIn } = useAuth();
 
   const handleStoreTypeSelector = (val: string): void => {
@@ -48,12 +50,24 @@ const SideBar = ({ sidebarShow }: SideBarProps) => {
   };
 
   useEffect(() => {
+    setShowTop5Search(false);
     fetchOffers({
       city: city,
       storeType: storeType.id,
       storeGroup: storeGroup.id,
     });
   }, [city, storeType.id, storeGroup.id]);
+
+  useEffect(() => {
+    if(showTop5Search) {
+      setSearchCondition(INITIAL_SEARCH_CONDITION);
+      getTopFiveAction();
+      return;
+    }
+
+    fetchOffers(INITIAL_OFFER_CONDITION);
+
+  }, [showTop5Search])
 
   return (
     <CSidebar
@@ -62,10 +76,10 @@ const SideBar = ({ sidebarShow }: SideBarProps) => {
       position="sticky"
       unfoldable={false}
       visible={sidebarShow}
-      onVisibleChange={() => {}}
+      onVisibleChange={() => { }}
     >
       {isLoadingBaseData ? (
-        <CSpinner className="sidebar-spinner" color="info" variant="grow" />
+        <CSpinner className="sidebar-spinner" color="info" />
       ) : (
         <>
           <CFormFloating className="mb-3">
@@ -120,14 +134,28 @@ const SideBar = ({ sidebarShow }: SideBarProps) => {
             </CFormLabel>
           </CFormFloating>
           <CDropdownDivider className="sidebar-item-divider mb-3" />
-          <CButton className="text-white mb-3">
+          <CButton className="text-white mb-3" color="primary">
             <CIcon icon={cilWalk} className="me-2" />
             Mutasd a legközelebbit!
           </CButton>
-          <CButton className="text-white mb-3" onClick={getTopFiveAction}>
+          {/* <CButton className="text-white mb-3" onClick={getTopFiveAction}>
             <CIcon icon={cilListNumbered} className="me-2" />
             Top5 akció
-          </CButton>
+          </CButton> */}
+          <div className={`top5-button-container ${showTop5Search ? "show": ""}`}>
+            <CFormCheck
+              autoComplete="off"
+              button={{ color: 'primary', variant: 'outline' }}
+              checked={!showTop5Search}
+              id="btn-check-outlined"
+              label={<>
+                <CIcon icon={cilListNumbered} className="me-2" />
+                {showTop5Search ? "Top 5 Akció elrejtése" : "Top 5 Akció"}
+              </>}
+              onChange={() => setShowTop5Search(!showTop5Search)}
+            />
+          </div>
+
         </>
       )}
       {isLoggedIn && (

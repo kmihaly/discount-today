@@ -1,14 +1,36 @@
+@import "../../../scss/variables";
+
 .sidebar.sidebar-sticky {
   height: 100% !important;
 }
 
 .sidebar-item-divider {
   height: 1px;
-  background-color: white;
+  background-color: $white;
 }
 
 .sidebar-spinner {
   width: 5rem;
   height: 5rem;
   margin: 0px auto;
+}
+
+.top5-button-container {
+
+  & > label {
+    color: $white !important;
+    background-color: $primary2 !important;
+    display: block;
+
+    &:hover {
+      background-color: #6d86ff !important;
+    }
+  }
+
+  &.show {
+    & > label {
+      border: 1px solid $white;
+      background-color: transparent !important;
+    }
+  }
 }

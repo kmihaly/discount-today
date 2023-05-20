@@ -1,5 +1,6 @@
 import {
   CButton,
+  CCallout,
   CCard,
   CCardBody,
   CCardGroup,
@@ -16,32 +17,39 @@ import "./OfferCard.scss";
 
 interface OfferCardProps {
   offerData: Omit<Offer, "storeName">;
+  shouldCardDirectionChange: boolean,
   storeGroupName: string;
 }
 
 const formatDate = (d: string) => d.split("-").join(".");
 
-const OfferCard = ({ offerData, storeGroupName }: OfferCardProps) => {
+const OfferCard = ({ offerData, shouldCardDirectionChange, storeGroupName }: OfferCardProps) => {
   const { offer_name, description, warning, image, offer_href, valid_from, valid_to } = offerData;
 
   return (
-    <CCard className="offer-card m-3">
-      <CCardHeader>{`${offer_name} ${storeGroupName ? "(" + storeGroupName + ")" : ""}`}</CCardHeader>
-      <CCardGroup className="card-group-border flex-fill">
-        <CCard className="p-4 flex-fill">
+    <CCard className="offer-card my-3">
+      <CCardHeader className="text-bold">{`${offer_name} ${storeGroupName ? "(" + storeGroupName + ")" : ""}`}</CCardHeader>
+      <CCardGroup className="offer-card__group flex-fill" style={shouldCardDirectionChange ? { flexFlow: "column" } : {}} >
+        <CCard className="p-4 flex-fill" style={shouldCardDirectionChange ? { marginBottom: 0, borderBottomLeftRadius: 0 } : {}}>
           <CCardImage src={image} />
         </CCard>
-        <CCard className="text-white bg-success py-2" style={{ width: "11rem", flex: "unset" }}>
+        <CCard className="text-white bg-primary" style={{
+          borderBottomLeftRadius: shouldCardDirectionChange ? "0.375rem" : "0",
+          flex: "unset",
+          height: shouldCardDirectionChange ? "auto" : "20rem",
+          marginBottom: shouldCardDirectionChange ? 0 : 'initial',
+          width: shouldCardDirectionChange ? "100%" : "11rem",
+        }}>
           <CCardBody>
             <CCardText>{`${formatDate(valid_from)} - ${formatDate(valid_to)}`}</CCardText>
             <CCardText>{description}</CCardText>
             {warning && (
-              <CCardText className="text-danger">
+              <CCallout className="bg-white text-black offer-card__callout" color="danger">
                 <CIcon icon={cilWarning} className="me-2" />
                 {warning}
-              </CCardText>
+              </CCallout>
             )}
-            <CButton color="warning" className="px-4" href={offer_href as string}>
+            <CButton color="light" className="px-4" href={offer_href as string}>
               Érdekel!
             </CButton>
           </CCardBody>

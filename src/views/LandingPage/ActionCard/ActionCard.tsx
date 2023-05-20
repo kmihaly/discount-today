@@ -10,13 +10,6 @@ import {
   // CCardSubtitle,
   CCardText,
   CCardTitle,
-  // CListGroup,
-  // CListGroupItem,
-  // CNav,
-  // CNavItem,
-  // CNavLink,
-  // CCol,
-  // CRow,
 } from "@coreui/react";
 import { NavLink, To } from "react-router-dom";
 
@@ -26,17 +19,18 @@ interface ActionCardProps {
   className: string;
   href: To;
   onClick: () => void;
+  shouldSetActionCards: boolean;
   title: string;
 }
 
-const ActionCard = ({ className, href, onClick, title }: ActionCardProps) => {
+const ActionCard = ({ className, href, onClick, shouldSetActionCards, title }: ActionCardProps) => {
   return (
     <NavLink to={href} className="action-card" onClick={onClick}>
       <CCard className={`mt-3 ${className}`} style={{ height: "25rem" }}>
         <CCardBody className="action-card__body">
           <div className="action-card__body--cut"></div>
           <div className="action-card__title-container">
-            <h3 className="action-card__title text-dark">{title}</h3>
+            <div className={`action-card__title text-dark h3 ${shouldSetActionCards ? "h4" : ""}`}>{title}</div>
           </div>
         </CCardBody>
       </CCard>

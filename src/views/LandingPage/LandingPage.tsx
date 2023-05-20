@@ -1,17 +1,17 @@
-import { Suspense, useContext, useEffect } from "react";
+import { Suspense, useContext, useEffect, useState } from "react";
 import { CCol, CContainer, CRow, CSpinner } from "@coreui/react";
 
 import ActionCard from "./ActionCard/ActionCard";
 import BaseContext from "../../contexts/BaseProvider";
 import Top5Card from "./Top5Card";
-import { BaseProviderData } from "../../interfaces";
+import { BaseProviderData, OutletContextData } from "../../interfaces";
 import { Footer, PageLoader, ShopLogoContainer } from "../../components";
 import { SearchCondition, StoreType } from "../../interfaces/baseData.interface";
 import { useOutletContext } from "react-router-dom";
 
 const LandingPage = (): JSX.Element => {
-  const { toggleSidebar } = useOutletContext<{ toggleSidebar: (state: boolean) => void }>();
-
+  const { toggleSidebar } = useOutletContext<OutletContextData>();
+  const [shouldSetActionCards, setShouldSetActionCards] = useState<boolean>(false);
   const { baseData, getAllBaseData, isLoadingBaseData, setSearchCondition } =
     useContext<BaseProviderData>(BaseContext);
   const { storeTypes } = baseData;
@@ -23,6 +23,16 @@ const LandingPage = (): JSX.Element => {
       storeType: storeType,
     }));
   };
+
+  useEffect(() => {
+    const measureWindowForActionCards = () => {
+      setShouldSetActionCards(window.innerWidth < 1200);
+    };
+
+    window.addEventListener("resize", measureWindowForActionCards);
+    measureWindowForActionCards();
+    return () => window.removeEventListener("resize", measureWindowForActionCards);
+  }, []);
 
   useEffect(() => {
     getAllBaseData();
@@ -38,9 +48,10 @@ const LandingPage = (): JSX.Element => {
                 <CCol xs={12} md={6} lg={4}>
                   <ActionCard
                     className="card-1 text-light"
-                    onClick={() => handleTypeClick(storeTypes[1])}
-                    title={`${storeTypes[1].name_plural} AKCIÓI`}
                     href="/search"
+                    onClick={() => handleTypeClick(storeTypes[1])}
+                    shouldSetActionCards={shouldSetActionCards}
+                    title={`${storeTypes[1].name_plural} AKCIÓI`}
                   />
                 </CCol>
               )}
@@ -48,13 +59,14 @@ const LandingPage = (): JSX.Element => {
                 <CCol xs={12} md={6} lg={4}>
                   <ActionCard
                     className="card-2 text-dark"
-                    onClick={() => handleTypeClick(storeTypes[2])}
-                    title={`${storeTypes[2].name_plural} AKCIÓI`}
                     href="/search"
+                    onClick={() => handleTypeClick(storeTypes[2])}
+                    shouldSetActionCards={shouldSetActionCards}
+                    title={`${storeTypes[2].name_plural} AKCIÓI`}
                   />
                 </CCol>
               )}
-              <Top5Card />
+              <Top5Card shouldSetActionCards={shouldSetActionCards}/>
               {isLoadingBaseData && (
                 <CCol
                   xs={12}
