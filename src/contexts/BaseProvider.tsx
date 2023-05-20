@@ -28,6 +28,7 @@ const BaseContext = createContext<BaseProviderData>({
   baseData: INITIAL_BASE_DATA,
   error: null,
   fetchOffers: () => {},
+  getAllBaseData: () => {},
   getTopFiveAction: () => {},
   isLoadingBaseData: false,
   searchCondition: INITIAL_SEARCH_CONDITION,
@@ -54,7 +55,6 @@ const getOffers = async (conditions: OfferCondition): Promise<Offer[]> => {
       // withCredentials: true,
     },
   });
-  console.log("response: ", response);
 
   return response.data;
 };
@@ -145,16 +145,13 @@ export const BaseProvider = ({
     }
   }, [error]);
 
-  useEffect(() => {
-    getAllBaseData();
-  }, []);
-
   return (
     <BaseContext.Provider
       value={{
         baseData,
         error,
         fetchOffers,
+        getAllBaseData,
         getTopFiveAction,
         isLoadingBaseData,
         searchCondition,

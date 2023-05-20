@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { Outlet } from "react-router-dom";
-import { CToast, CToastBody, CToastClose } from "@coreui/react";
+import { CNavLink, CToast, CToastBody, CToastClose } from "@coreui/react";
 
 import { Navigation, ModalsContainer } from "../components";
 import { ModalEnum, ModalsVisibility } from "../interfaces";
@@ -51,7 +51,7 @@ const DefaultLayout = (): JSX.Element => {
     <BaseProvider error={error} setError={setError} setErrorToastVisible={setErrorToastVisible}>
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
         <Navigation openModal={openModal} toggleSidebar={toggleSidebar} />
-        <Outlet context={{ errorToastVisible, openModal, setErrorToastVisible, sidebarVisible }} />
+        <Outlet context={{ errorToastVisible, openModal, setErrorToastVisible, sidebarVisible, toggleSidebar }} />
       </div>
       <ModalsContainer modalsVisibility={modalsVisibility} closeModal={closeModal} />
       <CToast
@@ -64,9 +64,9 @@ const DefaultLayout = (): JSX.Element => {
           <CToastBody>
             <CIcon icon={cilWarning} className="me-2"/>
             Hiba a kapcsolatban. Kérjük jelezd nekünk! <br />
-            <a className="nav-link" href="mailto:info@sporoljma.hu">
+            <CNavLink className="nav-link" href="mailto:info@sporoljma.hu">
                   info@sporoljma.hu
-            </a>
+            </CNavLink>
           </CToastBody>
           <CToastClose className="me-2 m-auto" onClick={closeToast} white />
         </div>

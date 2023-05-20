@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   // CModalHeader,
   // CModalTitle,
@@ -38,7 +38,7 @@ const LoginModal = ({ closeModal, size, modalVisible }: ModalProps) => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [loginErrorMessage, setLoginErrorMessage] = useState("");
 
   const handleSubmit = async () => {
     // e
@@ -63,13 +63,13 @@ const LoginModal = ({ closeModal, size, modalVisible }: ModalProps) => {
       closeModal();
     } catch (err) {
       if (!err?.response) {
-        setErrorMessage("No Server Response");
+        setLoginErrorMessage("No Server Response");
       } else if (err.response?.status === 400) {
-        setErrorMessage("Missing Username or Password");
+        setLoginErrorMessage("Missing Username or Password");
       } else if (err.response?.status === 401) {
-        setErrorMessage("Unauthorized");
+        setLoginErrorMessage("Unauthorized");
       } else {
-        setErrorMessage("Login Failed");
+        setLoginErrorMessage("Login Failed");
       }
       errRef?.current?.focus();
     }
@@ -80,7 +80,7 @@ const LoginModal = ({ closeModal, size, modalVisible }: ModalProps) => {
   }, []);
 
   useEffect(() => {
-    setErrorMessage("");
+    setLoginErrorMessage("");
   }, [username, password]);
 
   return (

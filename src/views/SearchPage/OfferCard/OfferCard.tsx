@@ -26,7 +26,7 @@ const OfferCard = ({ offerData, storeGroupName }: OfferCardProps) => {
 
   return (
     <CCard className="offer-card m-3">
-      <CCardHeader>{`${offer_name} (${storeGroupName})`}</CCardHeader>
+      <CCardHeader>{`${offer_name} ${storeGroupName ? "(" + storeGroupName + ")" : ""}`}</CCardHeader>
       <CCardGroup className="card-group-border flex-fill">
         <CCard className="p-4 flex-fill">
           <CCardImage src={image} />

@@ -1,4 +1,5 @@
 import React from "react";
+//import { NavLink } from "react-router-dom";
 import { CContainer, CNavLink } from "@coreui/react";
 
 const Footer = (): JSX.Element => {
@@ -17,11 +18,11 @@ const Footer = (): JSX.Element => {
           CoreUI React Admin &amp; Dashboard Template
         </a>
       </div> */}
-        <CNavLink href="impressum">Impresszum</CNavLink>
-        <CNavLink href="contact">Kapcsolat</CNavLink>
-        <a className="nav-link" href="privacy-policy" target="_blank" rel="noopener noreferrer">
+        <CNavLink className="nav-link" href="/impressum">Impresszum</CNavLink>
+        <CNavLink className="nav-link" href="/contact">Kapcsolat</CNavLink>
+        <CNavLink className="nav-link" href="/privacy-policy" target="_blank" rel="noopener noreferrer">
           Adatkezelési tájékoztató
-        </a>
+        </CNavLink>
       </CContainer>
     </footer>
   );

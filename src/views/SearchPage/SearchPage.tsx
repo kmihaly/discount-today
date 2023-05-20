@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
-import { CAlert, CCallout, CContainer, CSpinner } from "@coreui/react";
+import { CAlert, CContainer } from "@coreui/react";
 
 import BaseContext from "../../contexts/BaseProvider";
 import OfferCard from "./OfferCard/OfferCard";
@@ -12,13 +12,23 @@ import "./SearchPage.scss"
 import { cilSad } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 
-const getStoreGroupName = (groups: StoreGroup[], group_id: string): string =>
-  groups.find((gr: StoreGroup) => gr.id === group_id).name;
+const getStoreGroupName = (groups: StoreGroup[], group_id: string): string => {
+  const currentGroup = groups.find((gr: StoreGroup) => gr.id === group_id);
+  if (currentGroup) {
+    return currentGroup.name;
+  }
+
+  return ""
+}
 
 const SearchPage = () => {
   const { sidebarVisible } = useOutletContext<{ sidebarVisible: boolean }>();
-  const { baseData, error, isLoadingBaseData } = useContext<BaseProviderData>(BaseContext);
+  const { baseData, error, getAllBaseData, isLoadingBaseData } = useContext<BaseProviderData>(BaseContext);
   const { offers } = baseData;
+
+  useEffect(() => {
+    getAllBaseData();
+  }, []);
 
   return (
     <div className="flex-fill d-flex overflow-auto">
@@ -32,7 +42,7 @@ const SearchPage = () => {
               <OfferCard
                 key={`offer-${index}`}
                 offerData={offer}
-                storeGroupName={getStoreGroupName(baseData.storeGroups, offer.store_group)}
+                storeGroupName={getStoreGroupName(baseData.storeGroups, offer.store_group_id )}
               />
             ))
           )}

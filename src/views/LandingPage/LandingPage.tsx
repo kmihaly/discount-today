@@ -1,4 +1,4 @@
-import { Suspense, useContext } from "react";
+import { Suspense, useContext, useEffect } from "react";
 import { CCol, CContainer, CRow, CSpinner } from "@coreui/react";
 
 import ActionCard from "./ActionCard/ActionCard";
@@ -7,18 +7,26 @@ import Top5Card from "./Top5Card";
 import { BaseProviderData } from "../../interfaces";
 import { Footer, PageLoader, ShopLogoContainer } from "../../components";
 import { SearchCondition, StoreType } from "../../interfaces/baseData.interface";
+import { useOutletContext } from "react-router-dom";
 
 const LandingPage = (): JSX.Element => {
-  const { baseData, isLoadingBaseData, setSearchCondition } =
+  const { toggleSidebar } = useOutletContext<{ toggleSidebar: (state: boolean) => void }>();
+
+  const { baseData, getAllBaseData, isLoadingBaseData, setSearchCondition } =
     useContext<BaseProviderData>(BaseContext);
   const { storeTypes } = baseData;
 
   const handleTypeClick = (storeType: StoreType): void => {
+    toggleSidebar(true);
     setSearchCondition((condition: SearchCondition) => ({
       ...condition,
       storeType: storeType,
     }));
   };
+
+  useEffect(() => {
+    getAllBaseData();
+  }, []);
 
   return (
     <Suspense fallback={<PageLoader />}>

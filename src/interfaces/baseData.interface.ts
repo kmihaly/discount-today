@@ -17,7 +17,7 @@ interface Offer {
   image: string;
   offer_href: To;
   offer_name: string;
-  store_group: string;
+  store_group_id: string;
   valid_from: string;
   valid_to: string;
 }
@@ -45,6 +45,7 @@ interface BaseProviderData {
   baseData?: BaseData;
   error: Error;
   fetchOffers: (c: OfferCondition) => void;
+  getAllBaseData: () => void,
   getTopFiveAction: () => void;
   isLoadingBaseData?: boolean;
   searchCondition: SearchCondition;
