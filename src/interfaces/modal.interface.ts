@@ -6,10 +6,10 @@ enum ModalEnum {
 }
 
 interface ModalsVisibility {
-  [ModalEnum.login]: boolean,
-  [ModalEnum.userData]: boolean,
-  [ModalEnum.preferences]: boolean,
-  [ModalEnum.registration]: boolean,
+  [ModalEnum.login]: boolean;
+  [ModalEnum.userData]: boolean;
+  [ModalEnum.preferences]: boolean;
+  [ModalEnum.registration]: boolean;
 }
 
 interface ModalProps {

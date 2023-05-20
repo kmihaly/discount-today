@@ -4,14 +4,14 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 // https://www.toptal.com/react/webpack-react-tutorial-pt-1
 module.exports = {
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, "dist"),
     filename: "[name].bundle.js",
     clean: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/index.html",
-      inject: true
+      inject: true,
     }),
   ],
   devServer: {

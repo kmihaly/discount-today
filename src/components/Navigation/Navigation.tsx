@@ -1,14 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   CBadge,
   CButton,
   CCollapse,
   CContainer,
-  CForm,
-  CFormFloating,
-  CFormInput,
-  CFormLabel,
-  CFormSelect,
   CHeaderNav,
   CHeaderToggler,
   CNavItem,
@@ -19,30 +15,33 @@ import {
   CNavbarToggler,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
-import { cilDoor, cibFacebook, cibInstagram, cilMagnifyingGlass, cibReact, cilPen } from "@coreui/icons";
+import {
+  cilDoor,
+  cibFacebook,
+  cibInstagram,
+  cilMagnifyingGlass,
+  cibReact,
+  cilPen,
+} from "@coreui/icons";
 
 import UserMenu from "./UserMenu/UserMenu";
 import useAuth from "../../hooks/useAuth";
 import { ModalEnum } from "../../interfaces";
-import { useLocation, useNavigate } from "react-router-dom";
+import { LogoImage, LogoText } from "../../assets/logo";
 
 import "./Navigation.scss";
 
-
 interface NavigationProps {
   openModal: (modalType: ModalEnum) => void;
-  toggleSidebar: (state?: boolean) => void
+  toggleSidebar: (state?: boolean) => void;
 }
 
 const Navigation = ({ openModal, toggleSidebar }: NavigationProps): JSX.Element => {
-
   const [visible, setVisible] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
+  const [isNavbarExpanded, setIsNavbarExpanded] = useState<boolean>(true);
   const { pathname } = useLocation();
-
-  //const isSearchPage = pathname.includes("search");
-  // TODO: active element to be set
 
   const handleToggler = () => {
     if (!pathname.includes("search")) {
@@ -51,31 +50,29 @@ const Navigation = ({ openModal, toggleSidebar }: NavigationProps): JSX.Element 
     toggleSidebar();
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsNavbarExpanded(window.innerWidth >= 992);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <CNavbar expand="lg" colorScheme="light" className="border-bottom">
       <CContainer fluid>
-        {/* {
-          isSearchPage && */}
         <CHeaderToggler
           className="ms-1 me-3 px-3 py-1 rounded sidebar-toggler-button"
           onClick={handleToggler}
         >
-          {/* (e) => toggleSidebar() */}
           <CIcon icon={cilMagnifyingGlass} size="lg" />
         </CHeaderToggler>
-        {/* } */}
         <CNavbarBrand href="/">
-          {/* <img
-          src={CoreUISignetImg}
-          alt=""
-          width="22"
-          height="24"
-          className="d-inline-block align-top"
-        /> */}
-          <CIcon icon={cibReact} height={24} />
-          Brand/logo
+          <img src={LogoImage} alt="logo" height="24" className="d-inline-block align-top me-2" />
+          <img src={LogoText} alt="logo szöveg" height="24" className="d-inline-block align-top" />
         </CNavbarBrand>
-
         <CNavbarToggler onClick={() => setVisible(!visible)} />
         <CCollapse className="navbar-collapse" visible={visible}>
           <CNavbarNav className="flex-fill">
@@ -83,30 +80,30 @@ const Navigation = ({ openModal, toggleSidebar }: NavigationProps): JSX.Element 
               <CNavLink href="good-for-you">Miért jó itt Neked?</CNavLink>
             </CNavItem>
             <div className="flex-fill"></div>
-            {
-              !isLoggedIn &&
-              <CNavItem className="me-4">
-                <CButton color="primary" onClick={() => openModal(ModalEnum.registration)}>
-                <CIcon icon={cilPen} height={24} className="pe-1" />
-                  Regisztráció
-                </CButton>
-              </CNavItem>
-            }
-            {
-              !isLoggedIn &&
-              <CButton className="me-4" color="primary" onClick={() => openModal(ModalEnum.login)}>
-                <CIcon icon={cilDoor} height={24} className="pe-1" />
-                Belépés
-              </CButton>
-            }
-            {/* <CNavItem className="me-4">
-              <CForm className="d-flex">
-                <CFormInput type="search" className="me-2" placeholder="Áruház, étterem..." />
-                <CButton type="submit" color="primary">
-                  Keresés
-                </CButton>
-              </CForm>
-            </CNavItem> */}
+            {!isLoggedIn && (
+              <>
+                <CNavItem className="me-4">
+                  <CButton
+                    color="primary"
+                    className="text-white"
+                    onClick={() => openModal(ModalEnum.registration)}
+                  >
+                    <CIcon icon={cilPen} height={24} className="pe-1" />
+                    Regisztráció
+                  </CButton>
+                </CNavItem>
+                <CNavItem>
+                  <CButton
+                    className={`text-white me-4 ${isNavbarExpanded ? "" : "mt-2"}`}
+                    color="primary"
+                    onClick={() => openModal(ModalEnum.login)}
+                  >
+                    <CIcon icon={cilDoor} height={24} className="pe-1" />
+                    Belépés
+                  </CButton>
+                </CNavItem>
+              </>
+            )}
           </CNavbarNav>
           <CNavbarBrand className="d-flex align-items-center" href="#">
             <CIcon icon={cibFacebook} height={24} />
@@ -114,14 +111,13 @@ const Navigation = ({ openModal, toggleSidebar }: NavigationProps): JSX.Element 
           <CNavbarBrand className="d-flex align-items-center" href="#">
             <CIcon icon={cibInstagram} height={24} />
           </CNavbarBrand>
-          {
-            isLoggedIn &&
+          {isLoggedIn && (
             <CHeaderNav>
               <CBadge color="primary" shape="rounded-pill">
                 <UserMenu openModal={openModal} />
               </CBadge>
             </CHeaderNav>
-          }
+          )}
         </CCollapse>
       </CContainer>
     </CNavbar>

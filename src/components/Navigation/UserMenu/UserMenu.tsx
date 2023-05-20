@@ -26,14 +26,8 @@ import CIcon from "@coreui/icons-react";
 import "./UserMenu.scss";
 import { ModalEnum } from "../../../interfaces";
 
-const UserMenu = ({
-  openModal,
-}: {
-  openModal: (modalType: ModalEnum) => void;
-}): JSX.Element => {
-
+const UserMenu = ({ openModal }: { openModal: (modalType: ModalEnum) => void }): JSX.Element => {
   const isStaff = true;
-
 
   return (
     <CDropdown variant="nav-item">
@@ -42,7 +36,6 @@ const UserMenu = ({
         <CIcon icon={cilUser} className="me-2" />
       </CDropdownToggle>
       <CDropdownMenu className="pt-0 menu-toggle-list" placement="bottom-end">
-
         <CDropdownHeader className="bg-light fw-semibold py-2">
           Felhasználó beállítások
         </CDropdownHeader>
@@ -56,12 +49,9 @@ const UserMenu = ({
           Hírlevél, keresési beállítások
         </CDropdownItem>
         <CDropdownDivider />
-        {
-          isStaff &&
+        {isStaff && (
           <>
-            <CDropdownHeader className="bg-light fw-semibold py-2">
-              Boltok kezelése
-            </CDropdownHeader>
+            <CDropdownHeader className="bg-light fw-semibold py-2">Boltok kezelése</CDropdownHeader>
             <CDropdownItem onClick={() => openModal(ModalEnum.userData)}>
               {/* href="#"  */}
               <CIcon icon={cilSettings} className="me-2" />
@@ -69,7 +59,7 @@ const UserMenu = ({
             </CDropdownItem>
             <CDropdownDivider />
           </>
-        }
+        )}
         <CDropdownItem href="#">
           <CIcon icon={cilExitToApp} className="me-2" />
           Kilépés

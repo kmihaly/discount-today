@@ -1,2 +1,173 @@
-"use strict";(self.webpackChunkdiscount_today=self.webpackChunkdiscount_today||[]).push([[777],{9211:(e,t,n)=>{n.d(t,{C:()=>p,Z:()=>f});var r=n(5893),o=n(7294),a=n(1893),i=n(5122),s=function(){return s=Object.assign||function(e){for(var t,n=1,r=arguments.length;n<r;n++)for(var o in t=arguments[n])Object.prototype.hasOwnProperty.call(t,o)&&(e[o]=t[o]);return e},s.apply(this,arguments)},u=function(e,t,n,r){return new(n||(n=Promise))((function(o,a){function i(e){try{u(r.next(e))}catch(e){a(e)}}function s(e){try{u(r.throw(e))}catch(e){a(e)}}function u(e){var t;e.done?o(e.value):(t=e.value,t instanceof n?t:new n((function(e){e(t)}))).then(i,s)}u((r=r.apply(e,t||[])).next())}))},c=function(e,t){var n,r,o,a,i={label:0,sent:function(){if(1&o[0])throw o[1];return o[1]},trys:[],ops:[]};return a={next:s(0),throw:s(1),return:s(2)},"function"==typeof Symbol&&(a[Symbol.iterator]=function(){return this}),a;function s(s){return function(u){return function(s){if(n)throw new TypeError("Generator is already executing.");for(;a&&(a=0,s[0]&&(i=0)),i;)try{if(n=1,r&&(o=2&s[0]?r.return:s[0]?r.throw||((o=r.return)&&o.call(r),0):r.next)&&!(o=o.call(r,s[1])).done)return o;switch(r=0,o&&(s=[2&s[0],o.value]),s[0]){case 0:case 1:o=s;break;case 4:return i.label++,{value:s[1],done:!1};case 5:i.label++,r=s[1],s=[0];continue;case 7:s=i.ops.pop(),i.trys.pop();continue;default:if(!((o=(o=i.trys).length>0&&o[o.length-1])||6!==s[0]&&2!==s[0])){i=0;continue}if(3===s[0]&&(!o||s[1]>o[0]&&s[1]<o[3])){i.label=s[1];break}if(6===s[0]&&i.label<o[1]){i.label=o[1],o=s;break}if(o&&i.label<o[2]){i.label=o[2],i.ops.push(s);break}o[2]&&i.ops.pop(),i.trys.pop();continue}s=t.call(e,i)}catch(e){s=[6,e],r=0}finally{n=o=0}if(5&s[0])throw s[1];return{value:s[0]?s[1]:void 0,done:!0}}([s,u])}}},l=(0,o.createContext)({error:null,isLoadingBaseData:!1}),f=function(e){var t=e.children,n=(0,o.useState)({}),f=n[0],p=n[1],d=(0,o.useState)(null),h=d[0],b=d[1],v=(0,o.useState)(!1),y=v[0],g=v[1];return(0,o.useEffect)((function(){u(void 0,void 0,void 0,(function(){var e;return c(this,(function(t){var n;return g(!0),e=Promise.all([(n=i.Z.storeTypes,u(void 0,void 0,void 0,(function(){var e;return c(this,(function(t){switch(t.label){case 0:return[4,a.y.get(n,{withCredentials:!0})];case 1:return e=t.sent(),console.log("JSON.parse(response.data): ",JSON.parse(e.data)),[2,JSON.parse(e.data)]}}))})))]),e.then((function(e){p({storeTypes:e[0]}),g(!1)})).catch((function(e){console.error(e),g(!1),b(e)})),[2]}))}))}),[]),(0,r.jsx)(l.Provider,s({value:{baseData:f,error:h,isLoadingBaseData:y}},{children:t}))};const p=l},6368:(e,t,n)=>{n.r(t),n.d(t,{default:()=>p});var r,o=n(5893),a=n(7294),i=n(9250),s=n(7969),u=n(1247),c=(n(7788),n(9211)),l=function(){return l=Object.assign||function(e){for(var t,n=1,r=arguments.length;n<r;n++)for(var o in t=arguments[n])Object.prototype.hasOwnProperty.call(t,o)&&(e[o]=t[o]);return e},l.apply(this,arguments)},f=((r={})[u.o.login]=!1,r[u.o.userData]=!1,r[u.o.preferences]=!1,r[u.o.registration]=!1,r);const p=function(){var e=(0,a.useState)(!1),t=e[0],n=e[1],r=(0,a.useState)(f),u=r[0],p=r[1],d=(0,a.useCallback)((function(){return p(f)}),[]),h=(0,a.useCallback)((function(e){var t;p(l(l({},f),((t={})[e]=!0,t)))}),[]);return(0,o.jsxs)(c.Z,{children:[(0,o.jsxs)("div",l({className:"wrapper d-flex flex-column min-vh-100 bg-light"},{children:[(0,o.jsx)(s.W_,{openModal:h,toggleSidebar:function(e){n("boolean"!=typeof e?!t:e)}}),(0,o.jsx)(i.j3,{context:{openModal:h,sidebarVisible:t}})]})),(0,o.jsx)(s.Lu,{modalsVisibility:u,closeModal:d})]})}}}]);
+"use strict";
+(self.webpackChunkdiscount_today = self.webpackChunkdiscount_today || []).push([
+  [777],
+  {
+    6505: (e, s, t) => {
+      t.d(s, { Z: () => y, C: () => v });
+      var o = t(5893),
+        n = t(7294),
+        r = t(1893),
+        a = t(5122);
+      const i = { name: "Összes", id: "all" },
+        c = {
+          cities: ["Összes"],
+          offers: [],
+          storeTypes: [i],
+          storeGroups: [i],
+        },
+        l = { city: "all", storeGroup: "all", storeType: "all" };
+      var u = function (e, s, t, o) {
+        return new (t || (t = Promise))(function (n, r) {
+          function a(e) {
+            try {
+              c(o.next(e));
+            } catch (e) {
+              r(e);
+            }
+          }
+          function i(e) {
+            try {
+              c(o.throw(e));
+            } catch (e) {
+              r(e);
+            }
+          }
+          function c(e) {
+            var s;
+            e.done
+              ? n(e.value)
+              : ((s = e.value),
+                s instanceof t
+                  ? s
+                  : new t(function (e) {
+                      e(s);
+                    })).then(a, i);
+          }
+          c((o = o.apply(e, s || [])).next());
+        });
+      };
+      const d = (0, n.createContext)({
+          baseData: c,
+          error: null,
+          fetchOffers: () => {},
+          isLoadingBaseData: !1,
+        }),
+        f = (e) =>
+          u(void 0, void 0, void 0, function* () {
+            return (yield r.y.get(e, {})).data;
+          }),
+        p = (e) =>
+          u(void 0, void 0, void 0, function* () {
+            const s = {
+                city: "Összes" === e.city ? "all" : e.city,
+                store_group: e.storeGroup,
+                store_type: e.storeType,
+              },
+              t = yield r.y.post(a.Z.offers, JSON.stringify(s), {
+                headers: { "Content-Type": "application/json" },
+              });
+            return console.log("response: ", t), t.data;
+          }),
+        y = ({ children: e }) => {
+          const [s, t] = (0, n.useState)(c),
+            [r, i] = (0, n.useState)(null),
+            [y, v] = (0, n.useState)(!1);
+          return (
+            (0, n.useEffect)(() => {
+              v(!0),
+                Promise.all([
+                  f(a.Z.storeTypes),
+                  f(a.Z.storeGroups),
+                  f(a.Z.cities),
+                  p(l),
+                ])
+                  .then((e) => {
+                    console.info("responseData: ", e),
+                      t({
+                        storeTypes: [...c.storeTypes, ...e[0]],
+                        storeGroups: [...c.storeGroups, ...e[1]],
+                        cities: [...c.cities, ...e[2]],
+                        offers: e[3],
+                      }),
+                      v(!1);
+                  })
+                  .catch((e) => {
+                    console.error(e), v(!1), i(e);
+                  });
+            }, []),
+            (0, o.jsx)(
+              d.Provider,
+              Object.assign(
+                {
+                  value: {
+                    baseData: s,
+                    error: r,
+                    fetchOffers: (e) =>
+                      u(void 0, void 0, void 0, function* () {
+                        const s = yield p(e);
+                        t((e) =>
+                          Object.assign(Object.assign({}, e), { offers: s })
+                        );
+                      }),
+                    isLoadingBaseData: y,
+                  },
+                },
+                { children: e }
+              )
+            )
+          );
+        },
+        v = d;
+    },
+    6368: (e, s, t) => {
+      t.r(s), t.d(s, { default: () => u });
+      var o = t(5893),
+        n = t(7294),
+        r = t(9250),
+        a = t(4164),
+        i = t(1247),
+        c = (t(7788), t(6505));
+      const l = {
+          [i.o.login]: !1,
+          [i.o.userData]: !1,
+          [i.o.preferences]: !1,
+          [i.o.registration]: !1,
+        },
+        u = () => {
+          const [e, s] = (0, n.useState)(!1),
+            [t, i] = (0, n.useState)(l),
+            u = (0, n.useCallback)(() => i(l), []),
+            d = (0, n.useCallback)((e) => {
+              i(Object.assign(Object.assign({}, l), { [e]: !0 }));
+            }, []);
+          return (0, o.jsxs)(c.Z, {
+            children: [
+              (0, o.jsxs)(
+                "div",
+                Object.assign(
+                  {
+                    className: "wrapper d-flex flex-column min-vh-100 bg-light",
+                  },
+                  {
+                    children: [
+                      (0, o.jsx)(a.W_, {
+                        openModal: d,
+                        toggleSidebar: (t) => {
+                          s("boolean" != typeof t ? !e : t);
+                        },
+                      }),
+                      (0, o.jsx)(r.j3, {
+                        context: { openModal: d, sidebarVisible: e },
+                      }),
+                    ],
+                  }
+                )
+              ),
+              (0, o.jsx)(a.Lu, { modalsVisibility: t, closeModal: u }),
+            ],
+          });
+        };
+    },
+  },
+]);
 //# sourceMappingURL=777.bundle.js.map

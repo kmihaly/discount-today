@@ -6,51 +6,47 @@ import {
   CCardHeader,
   CCardImage,
   CCardText,
-  CCardTitle,
 } from "@coreui/react";
-//import { cilLockLocked, cilUser } from '@coreui/icons'
-//import CIcon from '@coreui/icons-react';
+import CIcon from "@coreui/icons-react";
+import { cilWarning } from "@coreui/icons";
 
-import OfferData from "../Offer.interface";
+import { Offer } from "../../../interfaces";
 
 import "./OfferCard.scss";
 
 interface OfferCardProps {
-  offerData: Omit<OfferData, "storeName">;
+  offerData: Omit<Offer, "storeName">;
+  storeGroupName: string;
 }
 
-const formatToHungarianDate = (d: Date) => d.toLocaleString("hu-HU", { dateStyle: "short" });
+const formatDate = (d: string) => d.split("-").join(".");
 
-const OfferCard = ({ offerData }: OfferCardProps) => {
-  const {
-    offerName,
-    description,
-    image,
-    offerHref,
-    //storeName,
-    validFrom,
-    validTo,
-  } = offerData;
+const OfferCard = ({ offerData, storeGroupName }: OfferCardProps) => {
+  const { offer_name, description, warning, image, offer_href, valid_from, valid_to } = offerData;
 
   return (
-    <CCard className="m-3" style={{ width: "30rem" }}>
-    <CCardHeader>{offerName}</CCardHeader>
-    <CCardGroup className="card-group-border">    
-      <CCard className="p-4 flex-fill">
-        <CCardImage src={image} />
-      </CCard>
-      <CCard className="text-white bg-success py-5" style={{ width: "10rem", flex: 'unset' }}>
-        <CCardBody>
-          <CCardText>
-            {`${formatToHungarianDate(validFrom)} - ${formatToHungarianDate(validTo)}`}
-          </CCardText>
-          <CCardText>{description}</CCardText>
-          <CButton color="warning" className="px-4" href={offerHref as string}>
-            Érdekel!
-          </CButton>
-        </CCardBody>
-      </CCard>
-    </CCardGroup>
+    <CCard className="offer-card m-3">
+      <CCardHeader>{`${offer_name} (${storeGroupName})`}</CCardHeader>
+      <CCardGroup className="card-group-border flex-fill">
+        <CCard className="p-4 flex-fill">
+          <CCardImage src={image} />
+        </CCard>
+        <CCard className="text-white bg-success py-2" style={{ width: "11rem", flex: "unset" }}>
+          <CCardBody>
+            <CCardText>{`${formatDate(valid_from)} - ${formatDate(valid_to)}`}</CCardText>
+            <CCardText>{description}</CCardText>
+            {warning && (
+              <CCardText className="text-danger">
+                <CIcon icon={cilWarning} className="me-2" />
+                {warning}
+              </CCardText>
+            )}
+            <CButton color="warning" className="px-4" href={offer_href as string}>
+              Érdekel!
+            </CButton>
+          </CCardBody>
+        </CCard>
+      </CCardGroup>
     </CCard>
   );
 };

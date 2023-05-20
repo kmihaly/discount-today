@@ -30,7 +30,11 @@ const ImpressumPage = () => {
             </CTableRow>
             <CTableRow>
               <CTableDataCell>Email:</CTableDataCell>
-              <CTableDataCell><a className="nav-link" href="mailto:info@sporoljma.hu">info@sporoljma.hu</a></CTableDataCell>
+              <CTableDataCell>
+                <a className="nav-link" href="mailto:info@sporoljma.hu">
+                  info@sporoljma.hu
+                </a>
+              </CTableDataCell>
             </CTableRow>
           </CTableBody>
         </CTable>
@@ -38,27 +42,19 @@ const ImpressumPage = () => {
         <CTable>
           <CTableBody>
             <CTableRow>
-              <CTableDataCell>
-                Cégnév:
-              </CTableDataCell>
+              <CTableDataCell>Cégnév:</CTableDataCell>
               <CTableDataCell></CTableDataCell>
             </CTableRow>
             <CTableRow>
-              <CTableDataCell>
-                Cím:
-              </CTableDataCell>
+              <CTableDataCell>Cím:</CTableDataCell>
               <CTableDataCell></CTableDataCell>
             </CTableRow>
             <CTableRow>
-              <CTableDataCell>
-                Telefonszám:
-              </CTableDataCell>
+              <CTableDataCell>Telefonszám:</CTableDataCell>
               <CTableDataCell></CTableDataCell>
             </CTableRow>
             <CTableRow>
-              <CTableDataCell>
-                Email:
-              </CTableDataCell>
+              <CTableDataCell>Email:</CTableDataCell>
               <CTableDataCell>
                 <a className="nav-link" href="mailto:"></a>
               </CTableDataCell>

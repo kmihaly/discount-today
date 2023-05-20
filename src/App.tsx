@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { CSpinner } from "@coreui/react";
 
-import { ErrorBoundary } from "./components";
+import { ErrorBoundary, PageLoader } from "./components";
 
 import "./scss/style.scss";
 
@@ -27,7 +27,13 @@ const App = (): JSX.Element => {
             <Route
               path="search"
               element={
-                <Suspense fallback={<div><CSpinner /></div>}>
+                <Suspense
+                  fallback={
+                    <div>
+                      <PageLoader />
+                    </div>
+                  }
+                >
                   <SearchPage />
                 </Suspense>
               }

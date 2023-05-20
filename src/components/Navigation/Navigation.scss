@@ -1,13 +1,30 @@
+@import "../../scss/variables";
+
 .sidebar-toggler-button {
-    border: 1px solid rgba(0, 0, 21, 0.1) !important;
+  //border: 1px solid rgba(0, 0, 21, 0.1) !important;
+  border: 1px solid rgba($primary2, 1) !important;
 
-    &:focus {
-        text-decoration: none;
-        outline: 0;
-        box-shadow: 0 0 0 .25rem;
-    }
+  > svg {
+    color: $primary2;
+  }
 
-    &:focus:not(:focus-visible) {
-        outline: 0;
-    }
+  &:focus {
+    text-decoration: none;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem $primary2;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: 0;
+  }
+}
+
+.navbar-brand {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  & > img {
+    display: block;
+  }
 }

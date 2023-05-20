@@ -1,59 +1,59 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect } from "react";
 import CIcon from "@coreui/icons-react";
 import {
   CButton,
   CDropdownDivider,
   CFormFloating,
-  CFormInput,
   CFormLabel,
   CFormSelect,
   CSidebar,
+  CSpinner,
 } from "@coreui/react";
-import { cilListNumbered, cilMagnifyingGlass, cilStar, cilWalk } from "@coreui/icons";
+import { cilListNumbered, cilStar, cilWalk } from "@coreui/icons";
 
 import BaseContext from "../../../contexts/BaseProvider";
-
-import "./SideBar.scss";
+import useAuth from "../../../hooks/useAuth";
 import { BaseProviderData } from "../../../interfaces";
 
-interface SearchCondition {
-  storeType: { name: string, id: string },
-}
-
-const ALL_STORETYPE_OPTION = { name: 'Összes', id: 'all' };
-
-const INITIAL_SEARCH_CONDITIONS = {
-  storeType: ALL_STORETYPE_OPTION
-}
-
-const shops = [
-  { name: "Mindegyik", value: "all" },
-  { name: "Tesco", value: "tesco" },
-  { name: "SPAR", value: "spar" },
-  { name: "Lidl", value: "lidl" },
-];
+import "./SideBar.scss";
 
 interface SideBarProps {
   sidebarShow: boolean;
 }
 
-const SideBar = ({
-  sidebarShow
-}: SideBarProps) => {
+const SideBar = ({ sidebarShow }: SideBarProps) => {
+  const { baseData, fetchOffers, getTopFiveAction, isLoadingBaseData, searchCondition, setSearchCondition } =
+    useContext<BaseProviderData>(BaseContext);
+  const { cities, storeGroups, storeTypes } = baseData;
+  const { city, storeGroup, storeType } = searchCondition;
 
-  const [searchConditions, setSearchConditions] = useState<SearchCondition>(INITIAL_SEARCH_CONDITIONS)
-  console.log('searchConditions: ', searchConditions);
-  const { baseData } = useContext<BaseProviderData>(BaseContext);
+  console.log("baseData: ", baseData);
 
-  const allStoreTypes = [ALL_STORETYPE_OPTION];
-
-  if (baseData?.storeTypes?.length) {
-    allStoreTypes.concat(baseData.storeTypes);
-  }
+  console.log("searchCondition: ", searchCondition);
+  const { isLoggedIn } = useAuth();
 
   const handleStoreTypeSelector = (val: string): void => {
-      setSearchConditions((sc) => ({ ...sc, storeType: allStoreTypes?.find(s_type => s_type.id === val )}));
+    const selectedStoreType = storeTypes?.find((sType) => String(sType.id) === val);
+    setSearchCondition((condition) => ({ ...condition, storeType: selectedStoreType }));
   };
+
+  const handleStoreGroupSelector = (val: string): void => {
+    const selectedStoreGroup = storeGroups?.find((sGroup) => String(sGroup.id) === val);
+    setSearchCondition((condition) => ({ ...condition, storeGroup: selectedStoreGroup }));
+  };
+
+  const handleCitySelector = (val: string): void => {
+    const selectedCity = cities?.find((city) => city === val);
+    setSearchCondition((condition) => ({ ...condition, city: selectedCity }));
+  };
+
+  useEffect(() => {
+    fetchOffers({
+      city: city,
+      storeType: storeType.id,
+      storeGroup: storeGroup.id,
+    });
+  }, [city, storeType.id, storeGroup.id]);
 
   return (
     <CSidebar
@@ -62,53 +62,82 @@ const SideBar = ({
       position="sticky"
       unfoldable={false}
       visible={sidebarShow}
-      onVisibleChange={() => { }}
+      onVisibleChange={() => {}}
     >
-      <CFormFloating className="mb-3">
-        <CFormInput type="text" id="city-selector" placeholder="Település" />
-        <CFormLabel className="text-dark" htmlFor="city-selector">Település</CFormLabel>
-      </CFormFloating>
-      <CFormFloating className="mb-3">
-        <CFormSelect
-          aria-label="Bolttípus-választó"
-          onChange={e => handleStoreTypeSelector(e.currentTarget?.value)}
-          value={searchConditions.storeType.id}
-          id="store-or-restaurant"
-        >
-          {allStoreTypes?.map(storeType => <option key={`store-type-${storeType.id}`} value={storeType.id}>{storeType.name}</option>)}
-        </CFormSelect>
-        <CFormLabel className="text-dark" htmlFor="store-or-restaurant">Bolttípus</CFormLabel>
-      </CFormFloating>
-      <CFormFloating className="mb-3">
-        <CFormSelect
-          aria-label="Bolthálózat-választó"
-          id="shop-selector"
-        >
-          {shops.map((shop, index) => (
-            <option key={`shop-${index}`} value={shop.value}>
-              {shop.name}
-            </option>
-          ))}
-        </CFormSelect>
-        <CFormLabel className="text-dark" htmlFor="shop-selector">Bolthálózat</CFormLabel>
-      </CFormFloating>
-      <CButton className="mb-3">
-        <CIcon icon={cilMagnifyingGlass} className="me-1" />
-        Keresés
-      </CButton>
-      <CDropdownDivider className="sidebar-item-divider mb-3" />
-      <CButton className="mb-3">
-        <CIcon icon={cilWalk} className="me-2" />
-        Mutasd a legközelebbit!
-      </CButton>
-      <CButton className="mb-3">
-        <CIcon icon={cilListNumbered} className="me-2" />
-        Top5 akció
-      </CButton>
-      <CButton className="mb-3">
-        <CIcon icon={cilStar} className="me-2" />
-        Kedvenceim
-      </CButton>
+      {isLoadingBaseData ? (
+        <CSpinner className="sidebar-spinner" color="info" variant="grow" />
+      ) : (
+        <>
+          <CFormFloating className="mb-3">
+            <CFormSelect
+              aria-label="Település-választó"
+              id="city-selector"
+              onChange={(e) => handleCitySelector(e.currentTarget?.value)}
+              value={city}
+            >
+              {cities.map((city, index) => (
+                <option key={`city-${index}`} value={city}>
+                  {city}
+                </option>
+              ))}
+            </CFormSelect>
+            <CFormLabel className="text-dark" htmlFor="city-selector">
+              Település
+            </CFormLabel>
+          </CFormFloating>
+          <CFormFloating className="mb-3">
+            <CFormSelect
+              aria-label="Bolttípus-választó"
+              id="store-or-restaurant"
+              onChange={(e) => handleStoreTypeSelector(e.currentTarget?.value)}
+              value={storeType.id}
+            >
+              {storeTypes?.map((storeType) => (
+                <option key={`store-type-${storeType.id}`} value={storeType.id}>
+                  {storeType.name}
+                </option>
+              ))}
+            </CFormSelect>
+            <CFormLabel className="text-dark" htmlFor="store-or-restaurant">
+              Bolttípus
+            </CFormLabel>
+          </CFormFloating>
+          <CFormFloating className="mb-3">
+            <CFormSelect
+              aria-label="Bolthálózat-választó"
+              id="store-group-selector"
+              onChange={(e) => handleStoreGroupSelector(e.currentTarget?.value)}
+              value={storeGroup.id}
+            >
+              {storeGroups.map((sGroup, index) => (
+                <option key={`store-group-${index}`} value={sGroup.id}>
+                  {sGroup.name}
+                </option>
+              ))}
+            </CFormSelect>
+            <CFormLabel className="text-dark" htmlFor="shop-selector">
+              Bolthálózat
+            </CFormLabel>
+          </CFormFloating>
+          <CDropdownDivider className="sidebar-item-divider mb-3" />
+          <CButton className="text-white mb-3">
+            <CIcon icon={cilWalk} className="me-2" />
+            Mutasd a legközelebbit!
+          </CButton>
+          <CButton className="text-white mb-3" onClick={getTopFiveAction}>
+            <CIcon icon={cilListNumbered} className="me-2" />
+            Top5 akció
+          </CButton>
+        </>
+      )}
+      {isLoggedIn && (
+        <>
+          <CButton className="text-white mb-3">
+            <CIcon icon={cilStar} className="me-2" />
+            Kedvenceim
+          </CButton>
+        </>
+      )}
     </CSidebar>
   );
 };

@@ -1,24 +1,73 @@
+@import "../../../scss/variables";
+
 .action-card {
   cursor: pointer;
   text-decoration: none;
   color: rgba(255, 255, 255, 0.87);
 
-  &>div {
+  &__body {
+    color: $light;
+    height: 100%;
+    padding: 0;
 
-    &:hover {
-      box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px,
-        rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px,
-        rgba(0, 0, 0, 0.09) 0px -3px 5px;
-      color: rgba(255, 255, 255, 0.87);
+    &--cut {
+      height: 100%;
+      background-color: white;
     }
   }
+
+  .card-1 {
+    & > .action-card__body {
+      clip-path: polygon(0.3% 75%, 99.7% 69%, 99.7% 99.7%, 0.3% 99.7%);
+    }
+  }
+
+  .card-2 {
+    & > .action-card__body {
+      clip-path: polygon(0.3% 68%, 99.7% 62%, 99.7% 99.7%, 0.3% 99.7%);
+    }
+  }
+
+  .card-3 {
+    & > .action-card__body {
+      clip-path: polygon(0.3% 61%, 99.7% 55%, 99.7% 99.7%, 0.3% 99.7%);
+    }
+  }
+
+  .card-1,
+  .card-2,
+  .card-3 {
+    background-color: $primary2;
+
+    &:hover {
+      background-color: #6d86ff;
+    }
+  }
+
+  &__title-container {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &__title {
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  // & > div {
+
+  //   &:hover {
+  //     // box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px,
+  //     //   rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px,
+  //     //   rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  //     color: rgba(255, 255, 255, 0.87);
+  //   }
+  // }
 
   &:active,
   &:link {
     color: rgba(255, 255, 255, 0.87);
-  }
-
-  .card-body>.card-title {
-    text-align: center;
   }
 }

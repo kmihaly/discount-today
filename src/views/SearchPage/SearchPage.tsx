@@ -1,51 +1,51 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import { CContainer } from "@coreui/react";
+import { CAlert, CCallout, CContainer, CSpinner } from "@coreui/react";
 
-import { Footer, ShopLogoContainer } from "../../components";
-import SideBar from "./SideBar/SideBar";
+import BaseContext from "../../contexts/BaseProvider";
 import OfferCard from "./OfferCard/OfferCard";
-import OfferData from "./Offer.interface";
+import SideBar from "./SideBar/SideBar";
+import { BaseProviderData, StoreGroup } from "../../interfaces";
+import { Footer, PageLoader, ShopLogoContainer } from "../../components";
+
+import "./SearchPage.scss"
+import { cilSad } from "@coreui/icons";
+import CIcon from "@coreui/icons-react";
+
+const getStoreGroupName = (groups: StoreGroup[], group_id: string): string =>
+  groups.find((gr: StoreGroup) => gr.id === group_id).name;
 
 const SearchPage = () => {
-  //const offers: OfferData[] = [];
   const { sidebarVisible } = useOutletContext<{ sidebarVisible: boolean }>();
-  const [fakeOfferList, setFakeOfferList] = useState([]);
-
-  useEffect(() => {
-    const fakeOffers: OfferData[] = [];
-
-    const fakeData = {
-      offerName: "50% leértékelés a SPAR-nál!",
-      description:
-        "Odio aenean sed adipiscing diam donec. Id semper risus in hendrerit gravida rutrum quisque non tellus.",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/WTSB_Obersch%C3%BCtzen_Spar_Tatzmannsdorferstra%C3%9Fe_51.jpg/1280px-WTSB_Obersch%C3%BCtzen_Spar_Tatzmannsdorferstra%C3%9Fe_51.jpg",
-      offerHref: "https://www.spar.hu/",
-      storeName: "SPAR",
-      validFrom: new Date(),
-      validTo: new Date(),
-    };
-
-    for (let index = 0; index < 25; index++) {
-      fakeOffers.push(fakeData);
-    }
-
-    setFakeOfferList(fakeOffers);
-  }, []);
+  const { baseData, error, isLoadingBaseData } = useContext<BaseProviderData>(BaseContext);
+  const { offers } = baseData;
 
   return (
     <div className="flex-fill d-flex overflow-auto">
       <SideBar sidebarShow={sidebarVisible} />
       <main className="flex-fill d-flex flex-column">
         <CContainer lg className="flex-fill d-flex justify-content-center flex-wrap">
-          {fakeOfferList.map((offer, index) => (
-            <OfferCard key={`offer-${index}`} offerData={offer} />
-          ))}
+          {isLoadingBaseData ? (
+            <PageLoader />
+          ) : (
+            offers.map((offer, index) => (
+              <OfferCard
+                key={`offer-${index}`}
+                offerData={offer}
+                storeGroupName={getStoreGroupName(baseData.storeGroups, offer.store_group)}
+              />
+            ))
+          )}
+          {!isLoadingBaseData && !error && !offers.length && (
+            <CAlert className="d-inline m-5 hit-alert" color="danger">
+              <CIcon icon={cilSad} className="me-2"/>
+              Sajnos nincs találat.
+            </CAlert>
+          )}
         </CContainer>
         <Footer />
       </main>
-    </div >
+    </div>
   );
 };
 

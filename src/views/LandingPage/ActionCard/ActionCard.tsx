@@ -25,20 +25,19 @@ import "./ActionCard.scss";
 interface ActionCardProps {
   className: string;
   href: To;
+  onClick: () => void;
   title: string;
 }
 
-const ActionCard = ({ className, href, title }: ActionCardProps) => {
+const ActionCard = ({ className, href, onClick, title }: ActionCardProps) => {
   return (
-    <NavLink to={href} className="action-card">
+    <NavLink to={href} className="action-card" onClick={onClick}>
       <CCard className={`mt-3 ${className}`} style={{ height: "25rem" }}>
-        {/* <CCardImage orientation="top" src={ReactImg} /> */}
-        <CCardBody className="d-flex justify-content-center align-items-center">
-          <CCardTitle>{title}</CCardTitle>
-          {/* <CCardText> */}
-          {/* Some quick example text to build on the card title and make up the bulk of the card's content.
-                  </CCardText> */}
-          {/* <CButton href="#"><CCardTitle>Card title</CCardTitle></CButton> */}
+        <CCardBody className="action-card__body">
+          <div className="action-card__body--cut"></div>
+          <div className="action-card__title-container">
+            <h3 className="action-card__title text-dark">{title}</h3>
+          </div>
         </CCardBody>
       </CCard>
     </NavLink>

@@ -1,28 +1,62 @@
-import { Suspense } from "react";
-import { Footer, PageLoader, ShopLogoContainer } from "../../components";
-import { CCol, CContainer, CRow } from "@coreui/react";
-import ActionCard from "./ActionCard/ActionCard";
+import { Suspense, useContext } from "react";
+import { CCol, CContainer, CRow, CSpinner } from "@coreui/react";
 
-interface LandingPageProps {
-  activateModal: () => void;
-}
+import ActionCard from "./ActionCard/ActionCard";
+import BaseContext from "../../contexts/BaseProvider";
+import Top5Card from "./Top5Card";
+import { BaseProviderData } from "../../interfaces";
+import { Footer, PageLoader, ShopLogoContainer } from "../../components";
+import { SearchCondition, StoreType } from "../../interfaces/baseData.interface";
 
 const LandingPage = (): JSX.Element => {
+  const { baseData, isLoadingBaseData, setSearchCondition } =
+    useContext<BaseProviderData>(BaseContext);
+  const { storeTypes } = baseData;
+
+  const handleTypeClick = (storeType: StoreType): void => {
+    setSearchCondition((condition: SearchCondition) => ({
+      ...condition,
+      storeType: storeType,
+    }));
+  };
+
   return (
     <Suspense fallback={<PageLoader />}>
       <div className="flex-fill d-flex flex-column">
         <main className="flex-fill d-flex flex-column">
           <CContainer lg className="flex-fill">
             <CRow>
-              <CCol xs={12} md={6} lg={4}>
-                <ActionCard className="bg-info" title="ÉLELMISZERÁRUHÁZAK AKCIÓI" href="/search" />
-              </CCol>
-              <CCol xs={12} md={6} lg={4}>
-                <ActionCard className="bg-warning" title="GYORSÉTTERMEK AKCIÓI" href="/search" />
-              </CCol>
-              <CCol xs={12} md={6} lg={4}>
-                <ActionCard className="bg-success" title="NAPI TOP 5 AKCIÓ" href="/search" />
-              </CCol>
+              {storeTypes[1] && (
+                <CCol xs={12} md={6} lg={4}>
+                  <ActionCard
+                    className="card-1 text-light"
+                    onClick={() => handleTypeClick(storeTypes[1])}
+                    title={`${storeTypes[1].name_plural} AKCIÓI`}
+                    href="/search"
+                  />
+                </CCol>
+              )}
+              {storeTypes[2] && (
+                <CCol xs={12} md={6} lg={4}>
+                  <ActionCard
+                    className="card-2 text-dark"
+                    onClick={() => handleTypeClick(storeTypes[2])}
+                    title={`${storeTypes[2].name_plural} AKCIÓI`}
+                    href="/search"
+                  />
+                </CCol>
+              )}
+              <Top5Card />
+              {isLoadingBaseData && (
+                <CCol
+                  xs={12}
+                  md={6}
+                  lg={4}
+                  className="d-flex align-items-center justify-content-center"
+                >
+                  <CSpinner color="primary" style={{ height: "25%", width: "25%" }} />
+                </CCol>
+              )}
             </CRow>
           </CContainer>
           <ShopLogoContainer />

@@ -48,11 +48,16 @@ const RegistrationModal = ({ closeModal, modalVisible }: ModalProps) => {
           </CInputGroup>
         </CForm>
         <p>
-          A regisztráció után lehetőséged van keresési feltételeket (kedvenceket) beállítani, amik alapján gyorsan tudsz keresni, továbbá hírlevelünkben is a kedvenceidnek megfelelő akciókról, kedvezményekről tájékoztatunk. A regisztrációval vállalod a feliratkozást hírlevelünkre, melyről bármikor leiratkozhatsz. 
+          A regisztráció után lehetőséged van keresési feltételeket (kedvenceket) beállítani, amik
+          alapján gyorsan tudsz keresni, továbbá hírlevelünkben is a kedvenceidnek megfelelő
+          akciókról, kedvezményekről tájékoztatunk. A regisztrációval vállalod a feliratkozást
+          hírlevelünkre, melyről bármikor leiratkozhatsz.
         </p>
       </CModalBody>
       <CModalFooter>
-        <CButton color="secondary" onClick={closeModal}>Mégsem</CButton>
+        <CButton color="secondary" onClick={closeModal}>
+          Mégsem
+        </CButton>
         <CButton color="success">Saját fiók létrehozása</CButton>
       </CModalFooter>
     </CModal>

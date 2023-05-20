@@ -21,13 +21,12 @@ import {
 import { cilLockLocked, cilUser } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 
-import apiUrl from '../../../constants/apiUrl.constant';
-import useAuth from '../../../hooks/useAuth';
+import apiUrl from "../../../constants/apiUrl.constant";
+import useAuth from "../../../hooks/useAuth";
 import { ModalProps } from "../../../interfaces";
-import { axiosPublic } from '../../../api/axios';
+import { axiosPublic } from "../../../api/axios";
 
 const LoginModal = ({ closeModal, size, modalVisible }: ModalProps) => {
-
   const { setAuth } = useAuth();
 
   const navigate = useNavigate();
@@ -37,54 +36,52 @@ const LoginModal = ({ closeModal, size, modalVisible }: ModalProps) => {
   const usernameRef = useRef<HTMLInputElement>();
   const errRef = useRef<HTMLInputElement>();
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async () => {
     // e
     //e.preventDefault();
 
     try {
-
-      const response = await axiosPublic.post(apiUrl.login,
+      const response = await axiosPublic.post(
+        apiUrl.login,
         JSON.stringify({ username, password }),
         {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true
-        }
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        },
       );
 
       console.log(JSON.stringify(response?.data));
       //console.log(JSON.stringify(response));
       const { access, refresh } = response?.data;
       setAuth({ username, password, accessToken: access, refreshToken: refresh });
-      setUsername('');
-      setPassword('');
+      setUsername("");
+      setPassword("");
       closeModal();
     } catch (err) {
-
       if (!err?.response) {
-        setErrorMessage('No Server Response');
+        setErrorMessage("No Server Response");
       } else if (err.response?.status === 400) {
-        setErrorMessage('Missing Username or Password');
+        setErrorMessage("Missing Username or Password");
       } else if (err.response?.status === 401) {
-        setErrorMessage('Unauthorized');
+        setErrorMessage("Unauthorized");
       } else {
-        setErrorMessage('Login Failed');
+        setErrorMessage("Login Failed");
       }
       errRef?.current?.focus();
-
     }
-  }
+  };
 
   useEffect(() => {
     usernameRef?.current?.focus();
-  }, [])
+  }, []);
 
   useEffect(() => {
-    setErrorMessage('');
-  }, [username, password])
+    setErrorMessage("");
+  }, [username, password]);
 
   return (
     <CModal visible={modalVisible} size={size} onClose={closeModal}>

@@ -1,2 +1,99 @@
-"use strict";(self.webpackChunkdiscount_today=self.webpackChunkdiscount_today||[]).push([[860],{2860:(e,s,t)=>{t.r(s),t.d(s,{default:()=>l});var a=t(5893),r=t(4475),n=function(){return n=Object.assign||function(e){for(var s,t=1,a=arguments.length;t<a;t++)for(var r in s=arguments[t])Object.prototype.hasOwnProperty.call(s,r)&&(e[r]=s[r]);return e},n.apply(this,arguments)};const l=function(){return(0,a.jsx)("div",n({className:"bg-light min-vh-100 d-flex flex-row align-items-center"},{children:(0,a.jsx)(r.KB,{children:(0,a.jsx)(r.rb,n({className:"justify-content-center"},{children:(0,a.jsxs)(r.b7,n({md:6},{children:[(0,a.jsxs)("span",n({className:"clearfix"},{children:[(0,a.jsx)("h1",n({className:"float-start display-3 me-4"},{children:"500"})),(0,a.jsx)("h4",n({className:"pt-3"},{children:"Houston, baj van!"})),(0,a.jsx)("p",n({className:"text-medium-emphasis float-start"},{children:"A keresett oldal pillanatnyilag nem elérhető."}))]})),(0,a.jsx)(r.Gc,n({color:"primary"},{children:(0,a.jsx)(r.AQ,n({href:"/"},{children:"Megpróbálom újra!"}))}))]}))}))})}))}}}]);
+"use strict";
+(self.webpackChunkdiscount_today = self.webpackChunkdiscount_today || []).push([
+  [860],
+  {
+    2860: (s, e, a) => {
+      a.r(e), a.d(e, { default: () => n });
+      var t = a(5893),
+        c = a(4475);
+      const n = () =>
+        (0, t.jsx)(
+          "div",
+          Object.assign(
+            {
+              className:
+                "bg-light min-vh-100 d-flex flex-row align-items-center",
+            },
+            {
+              children: (0, t.jsx)(c.KB, {
+                children: (0, t.jsx)(
+                  c.rb,
+                  Object.assign(
+                    { className: "justify-content-center" },
+                    {
+                      children: (0, t.jsxs)(
+                        c.b7,
+                        Object.assign(
+                          { md: 6 },
+                          {
+                            children: [
+                              (0, t.jsxs)(
+                                "span",
+                                Object.assign(
+                                  { className: "clearfix" },
+                                  {
+                                    children: [
+                                      (0, t.jsx)(
+                                        "h1",
+                                        Object.assign(
+                                          {
+                                            className:
+                                              "float-start display-3 me-4",
+                                          },
+                                          { children: "500" }
+                                        )
+                                      ),
+                                      (0, t.jsx)(
+                                        "h4",
+                                        Object.assign(
+                                          { className: "pt-3" },
+                                          { children: "Houston, baj van!" }
+                                        )
+                                      ),
+                                      (0, t.jsx)(
+                                        "p",
+                                        Object.assign(
+                                          {
+                                            className:
+                                              "text-medium-emphasis float-start",
+                                          },
+                                          {
+                                            children:
+                                              "A keresett oldal pillanatnyilag nem elérhető.",
+                                          }
+                                        )
+                                      ),
+                                    ],
+                                  }
+                                )
+                              ),
+                              (0, t.jsx)(
+                                c.Gc,
+                                Object.assign(
+                                  { color: "primary" },
+                                  {
+                                    children: (0, t.jsx)(
+                                      c.AQ,
+                                      Object.assign(
+                                        { href: "/" },
+                                        { children: "Megpróbálom újra!" }
+                                      )
+                                    ),
+                                  }
+                                )
+                              ),
+                            ],
+                          }
+                        )
+                      ),
+                    }
+                  )
+                ),
+              }),
+            }
+          )
+        );
+    },
+  },
+]);
 //# sourceMappingURL=860.bundle.js.map
