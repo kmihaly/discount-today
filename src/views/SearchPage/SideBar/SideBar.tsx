@@ -18,17 +18,28 @@ import { BaseProviderData, OutletContextData } from "../../../interfaces";
 
 import "./SideBar.scss";
 import { useOutletContext } from "react-router-dom";
-import { INITIAL_OFFER_CONDITION, INITIAL_SEARCH_CONDITION } from "../../../constants/baseData.constant";
+import {
+  INITIAL_OFFER_CONDITION,
+  INITIAL_SEARCH_CONDITION,
+} from "../../../constants/baseData.constant";
 
 interface SideBarProps {
   sidebarShow: boolean;
 }
 
 const SideBar = ({ sidebarShow }: SideBarProps) => {
-  const { setShowTop5Search, showTop5Search } = useOutletContext<OutletContextData>();
+  const { setShowNearestOffers, setShowTop5Search, showNearestOffers, showTop5Search } =
+    useOutletContext<OutletContextData>();
 
-  const { baseData, fetchOffers, getTopFiveAction, isLoadingBaseData, searchCondition, setSearchCondition } =
-    useContext<BaseProviderData>(BaseContext);
+  const {
+    baseData,
+    fetchOffers,
+    getNearestOffers,
+    getTopFiveOffers,
+    isLoadingBaseData,
+    searchCondition,
+    setSearchCondition,
+  } = useContext<BaseProviderData>(BaseContext);
   const { cities, storeGroups, storeTypes } = baseData;
   const { city, storeGroup, storeType } = searchCondition;
 
@@ -51,6 +62,7 @@ const SideBar = ({ sidebarShow }: SideBarProps) => {
 
   useEffect(() => {
     setShowTop5Search(false);
+    setShowNearestOffers(false);
     fetchOffers({
       city: city,
       storeType: storeType.id,
@@ -59,15 +71,26 @@ const SideBar = ({ sidebarShow }: SideBarProps) => {
   }, [city, storeType.id, storeGroup.id]);
 
   useEffect(() => {
-    if(showTop5Search) {
+    if (showTop5Search) {
+      setShowNearestOffers(false);
       setSearchCondition(INITIAL_SEARCH_CONDITION);
-      getTopFiveAction();
+      getTopFiveOffers();
       return;
     }
 
     fetchOffers(INITIAL_OFFER_CONDITION);
+  }, [showTop5Search]);
 
-  }, [showTop5Search])
+  useEffect(() => {
+    if (showNearestOffers) {
+      setShowTop5Search(false);
+      setSearchCondition(INITIAL_SEARCH_CONDITION);
+      getNearestOffers();
+      return;
+    }
+
+    fetchOffers(INITIAL_OFFER_CONDITION);
+  }, [showNearestOffers]);
 
   return (
     <CSidebar
@@ -76,7 +99,7 @@ const SideBar = ({ sidebarShow }: SideBarProps) => {
       position="sticky"
       unfoldable={false}
       visible={sidebarShow}
-      onVisibleChange={() => { }}
+      onVisibleChange={() => {}}
     >
       {isLoadingBaseData ? (
         <CSpinner className="sidebar-spinner" color="info" />
@@ -134,28 +157,36 @@ const SideBar = ({ sidebarShow }: SideBarProps) => {
             </CFormLabel>
           </CFormFloating>
           <CDropdownDivider className="sidebar-item-divider mb-3" />
-          <CButton className="text-white mb-3" color="primary">
-            <CIcon icon={cilWalk} className="me-2" />
-            Mutasd a legközelebbit!
-          </CButton>
-          {/* <CButton className="text-white mb-3" onClick={getTopFiveAction}>
-            <CIcon icon={cilListNumbered} className="me-2" />
-            Top5 akció
-          </CButton> */}
-          <div className={`top5-button-container ${showTop5Search ? "show": ""}`}>
+          <div className={`checkbox-button-container mb-3 ${showNearestOffers ? "show" : ""}`}>
             <CFormCheck
               autoComplete="off"
-              button={{ color: 'primary', variant: 'outline' }}
-              checked={!showTop5Search}
+              button={{ color: "primary", variant: "outline" }}
+              checked={!showNearestOffers}
               id="btn-check-outlined"
-              label={<>
-                <CIcon icon={cilListNumbered} className="me-2" />
-                {showTop5Search ? "Top 5 Akció elrejtése" : "Top 5 Akció"}
-              </>}
+              label={
+                <>
+                  <CIcon icon={cilWalk} className="me-2" />
+                  {showNearestOffers ? "Összes akció" : "Közeli akciók!"}
+                </>
+              }
+              onChange={() => setShowNearestOffers(!showNearestOffers)}
+            />
+          </div>
+          <div className={`checkbox-button-container mb-3 ${showTop5Search ? "show" : ""}`}>
+            <CFormCheck
+              autoComplete="off"
+              button={{ color: "primary", variant: "outline" }}
+              checked={!showTop5Search}
+              id="btn-check-outlined2"
+              label={
+                <>
+                  <CIcon icon={cilListNumbered} className="me-2" />
+                  {showTop5Search ? "Összes akció" : "Top 5 Akció!"}
+                </>
+              }
               onChange={() => setShowTop5Search(!showTop5Search)}
             />
           </div>
-
         </>
       )}
       {isLoggedIn && (

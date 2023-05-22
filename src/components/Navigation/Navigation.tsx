@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   CBadge,
@@ -37,10 +37,13 @@ interface NavigationProps {
 }
 
 const Navigation = ({ openModal, toggleSidebar }: NavigationProps): JSX.Element => {
+  const [isNavbarExpanded, setIsNavbarExpanded] = useState<boolean>(true);
+  const isNavbarPreviouslyExpandedRef = useRef<boolean>(null);
+  const shouldPreviouslyShowLogoTextRef = useRef<boolean>(null);
+  const [shouldShowLogoText, setShouldShowLogoText] = useState<boolean>(false);
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
-  const [isNavbarExpanded, setIsNavbarExpanded] = useState<boolean>(true);
   const { pathname } = useLocation();
 
   const handleToggler = () => {
@@ -52,7 +55,18 @@ const Navigation = ({ openModal, toggleSidebar }: NavigationProps): JSX.Element 
 
   useEffect(() => {
     const measureWindowForNavbar = () => {
-      setIsNavbarExpanded(window.innerWidth >= 992);
+      const isWindowLarge = window.innerWidth >= 992;
+      const isSpaceEnoughForLogoText = window.innerWidth > 460;
+
+      if (isWindowLarge !== isNavbarPreviouslyExpandedRef.current) {
+        isNavbarPreviouslyExpandedRef.current = isWindowLarge;
+        setIsNavbarExpanded(isWindowLarge);
+      }
+
+      if (isSpaceEnoughForLogoText !== shouldPreviouslyShowLogoTextRef.current) {
+        shouldPreviouslyShowLogoTextRef.current = isSpaceEnoughForLogoText;
+        setShouldShowLogoText(isSpaceEnoughForLogoText);
+      }
     };
 
     window.addEventListener("resize", measureWindowForNavbar);
@@ -71,7 +85,14 @@ const Navigation = ({ openModal, toggleSidebar }: NavigationProps): JSX.Element 
         </CHeaderToggler>
         <CNavbarBrand href="/">
           <img src={LogoImage} alt="logo" height="24" className="d-inline-block align-top me-2" />
-          <img src={LogoText} alt="logo szöveg" height="24" className="d-inline-block align-top" />
+          {shouldShowLogoText && (
+            <img
+              src={LogoText}
+              alt="logo szöveg"
+              height="24"
+              className="d-inline-block align-top"
+            />
+          )}
         </CNavbarBrand>
         <CNavbarToggler onClick={() => setVisible(!visible)} />
         <CCollapse className="navbar-collapse" visible={visible}>

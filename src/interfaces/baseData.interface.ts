@@ -45,8 +45,9 @@ interface BaseProviderData {
   baseData?: BaseData;
   error: Error;
   fetchOffers: (c: OfferCondition) => void;
-  getAllBaseData: () => void,
-  getTopFiveAction: () => void;
+  getAllBaseData: () => void;
+  getNearestOffers: () => void;
+  getTopFiveOffers: () => void;
   isLoadingBaseData?: boolean;
   searchCondition: SearchCondition;
   setSearchCondition: React.Dispatch<React.SetStateAction<SearchCondition>>;

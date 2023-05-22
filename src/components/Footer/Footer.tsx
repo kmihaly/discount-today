@@ -18,9 +18,18 @@ const Footer = (): JSX.Element => {
           CoreUI React Admin &amp; Dashboard Template
         </a>
       </div> */}
-        <CNavLink className="nav-link" href="/impressum">Impresszum</CNavLink>
-        <CNavLink className="nav-link" href="/contact">Kapcsolat</CNavLink>
-        <CNavLink className="nav-link" href="/privacy-policy" target="_blank" rel="noopener noreferrer">
+        <CNavLink className="nav-link" href="/impressum">
+          Impresszum
+        </CNavLink>
+        <CNavLink className="nav-link" href="/contact">
+          Kapcsolat
+        </CNavLink>
+        <CNavLink
+          className="nav-link"
+          href="/privacy-policy"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Adatkezelési tájékoztató
         </CNavLink>
       </CContainer>

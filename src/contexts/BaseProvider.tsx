@@ -2,20 +2,20 @@ import { createContext, useEffect, useState } from "react";
 import { axiosPublic } from "../api/axios";
 
 import apiURL from "../constants/apiUrl.constant";
+import { BaseData, BaseProviderData, Offer, OfferCondition } from "../interfaces";
 import {
-  BaseData,
-  BaseProviderData,
-  Offer,
-  OfferCondition,
-} from "../interfaces";
-import { INITIAL_BASE_DATA, INITIAL_OFFER_CONDITION, INITIAL_SEARCH_CONDITION } from "../constants/baseData.constant";
+  INITIAL_BASE_DATA,
+  INITIAL_OFFER_CONDITION,
+  INITIAL_SEARCH_CONDITION,
+} from "../constants/baseData.constant";
 import { SearchCondition } from "../interfaces/baseData.interface";
 
 interface BaseProviderProps {
   children: React.ReactNode;
-  error: Error,
-  setError: React.Dispatch<React.SetStateAction<Error>>
+  error: Error;
+  setError: React.Dispatch<React.SetStateAction<Error>>;
   setErrorToastVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setGeolocationNotSupportedToastVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const BaseContext = createContext<BaseProviderData>({
@@ -23,7 +23,8 @@ const BaseContext = createContext<BaseProviderData>({
   error: null,
   fetchOffers: () => {},
   getAllBaseData: () => {},
-  getTopFiveAction: () => {},
+  getNearestOffers: () => {},
+  getTopFiveOffers: () => {},
   isLoadingBaseData: false,
   searchCondition: INITIAL_SEARCH_CONDITION,
   setSearchCondition: () => {},
@@ -58,10 +59,22 @@ export const BaseProvider = ({
   error,
   setError,
   setErrorToastVisible,
+  setGeolocationNotSupportedToastVisible,
 }: BaseProviderProps): JSX.Element => {
   const [isLoadingBaseData, setIsLoadingBaseData] = useState<boolean>(false);
   const [baseData, setBaseData] = useState<BaseData>(INITIAL_BASE_DATA);
+  const [geolocationPosition, setGeolocationPosition] = useState<GeolocationPosition>(null);
   const [searchCondition, setSearchCondition] = useState<SearchCondition>(INITIAL_SEARCH_CONDITION);
+
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(setGeolocationPosition, () =>
+        setGeolocationNotSupportedToastVisible(true),
+      );
+    } else {
+      setGeolocationNotSupportedToastVisible(true);
+    }
+  };
 
   const fetchOffers = async (conditions: OfferCondition) => {
     setError(null);
@@ -94,7 +107,6 @@ export const BaseProvider = ({
 
     allPromise
       .then((responseData) => {
-        console.info("responseData: ", responseData);
         setIsLoadingBaseData(false);
         setBaseData({
           storeTypes: [...INITIAL_BASE_DATA.storeTypes, ...responseData[0]],
@@ -110,7 +122,7 @@ export const BaseProvider = ({
       });
   };
 
-  const getTopFiveAction = async () => {
+  const getTopFiveOffers = async () => {
     setError(null);
     setIsLoadingBaseData(true);
     try {
@@ -133,11 +145,54 @@ export const BaseProvider = ({
     }
   };
 
+  const getNearestOffers = () => {
+    setError(null);
+    setIsLoadingBaseData(true);
+    getLocation();
+  };
+
+  const fetchNearestOffers = async () => {
+    if (geolocationPosition?.coords?.latitude && geolocationPosition?.coords?.longitude) {
+      try {
+        const response = await axiosPublic.post(
+          apiURL.nearestOffers,
+          JSON.stringify({
+            user_location: {
+              latitude: geolocationPosition?.coords?.latitude,
+              longitude: geolocationPosition?.coords?.longitude,
+            },
+          }),
+          {
+            headers: { "Content-Type": "application/json" },
+            //withCredentials: true
+          },
+        );
+        const offers = response.data;
+        setBaseData(
+          (data): BaseData => ({
+            ...data,
+            offers,
+          }),
+        );
+        setIsLoadingBaseData(false);
+        setSearchCondition(INITIAL_SEARCH_CONDITION);
+      } catch (err) {
+        console.error(err);
+        setIsLoadingBaseData(false);
+        setError(err);
+      }
+    }
+  };
+
   useEffect(() => {
     if (error) {
       setErrorToastVisible(true);
     }
   }, [error]);
+
+  useEffect(() => {
+    fetchNearestOffers();
+  }, [geolocationPosition]);
 
   return (
     <BaseContext.Provider
@@ -146,7 +201,8 @@ export const BaseProvider = ({
         error,
         fetchOffers,
         getAllBaseData,
-        getTopFiveAction,
+        getNearestOffers,
+        getTopFiveOffers,
         isLoadingBaseData,
         searchCondition,
         setSearchCondition,
