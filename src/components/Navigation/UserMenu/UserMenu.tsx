@@ -25,15 +25,20 @@ import CIcon from "@coreui/icons-react";
 //import avatar8 from './../../assets/images/avatars/8.jpg'
 import "./UserMenu.scss";
 import { ModalEnum } from "../../../interfaces";
+import useAuth from "../../../hooks/useAuth";
 
 const UserMenu = ({ openModal }: { openModal: (modalType: ModalEnum) => void }): JSX.Element => {
+
+  const { auth } = useAuth()
+
   const isStaff = true;
 
   return (
     <CDropdown variant="nav-item">
-      <CDropdownToggle className="py-0 menu-toggle-anchor" caret={false}>
+      <CDropdownToggle className="py-0 menu-toggle-anchor me-2" caret={false}>
         {/* <CAvatar src={avatar8} size="md" /> */}
-        <CIcon icon={cilUser} className="me-2" />
+        <CIcon icon={cilUser} />
+        { auth?.username && <span className="h6 ms-2 mb-0">{ auth.username }</span> }
       </CDropdownToggle>
       <CDropdownMenu className="pt-0 menu-toggle-list" placement="bottom-end">
         <CDropdownHeader className="bg-light fw-semibold py-2">
@@ -48,7 +53,6 @@ const UserMenu = ({ openModal }: { openModal: (modalType: ModalEnum) => void }):
           <CIcon icon={cilEnvelopeOpen} className="me-2" />
           Hírlevél, keresési beállítások
         </CDropdownItem>
-        <CDropdownDivider />
         {isStaff && (
           <>
             <CDropdownHeader className="bg-light fw-semibold py-2">Boltok kezelése</CDropdownHeader>
@@ -57,9 +61,9 @@ const UserMenu = ({ openModal }: { openModal: (modalType: ModalEnum) => void }):
               <CIcon icon={cilSettings} className="me-2" />
               Boltok
             </CDropdownItem>
-            <CDropdownDivider />
           </>
         )}
+        <CDropdownDivider />
         <CDropdownItem href="#">
           <CIcon icon={cilExitToApp} className="me-2" />
           Kilépés

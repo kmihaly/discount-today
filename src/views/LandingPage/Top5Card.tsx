@@ -24,7 +24,7 @@ const Top5Card = ({
         onClick={handleClick}
         shouldSetActionCards={shouldSetActionCards}
         title="NAPI TOP 5 AKCIÓ"
-        href="/search"
+        href="search"
         imageSrc={imageSrc}
       />
     </CCol>

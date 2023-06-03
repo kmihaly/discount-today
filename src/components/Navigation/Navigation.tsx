@@ -103,15 +103,8 @@ const Navigation = ({ openModal, toggleSidebar }: NavigationProps): JSX.Element 
             <div className="flex-fill"></div>
             {!isLoggedIn && (
               <>
-                <CNavItem className="me-4">
-                  <CButton
-                    color="primary"
-                    className="text-white"
-                    onClick={() => openModal(ModalEnum.registration)}
-                  >
-                    <CIcon icon={cilPen} height={24} className="pe-1" />
-                    Regisztráció
-                  </CButton>
+                <CNavItem className="me-2" >
+                  <CNavLink href="registration">Regisztráció</CNavLink>
                 </CNavItem>
                 <CNavItem>
                   <CButton

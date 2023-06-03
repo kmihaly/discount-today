@@ -5,6 +5,8 @@ enum ModalEnum {
   registration = "registration",
 }
 
+type OpenModal = (type: ModalEnum) => void
+
 interface ModalsVisibility {
   [ModalEnum.login]: boolean;
   [ModalEnum.userData]: boolean;
@@ -15,7 +17,8 @@ interface ModalsVisibility {
 interface ModalProps {
   closeModal: () => void;
   modalVisible: boolean;
+  openModal?: OpenModal;
   size?: "sm" | "lg" | "xl";
 }
 
-export { ModalEnum, ModalProps, ModalsVisibility };
+export { ModalEnum, ModalProps, ModalsVisibility, OpenModal };

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { flushSync } from "react-dom";
+import { useNavigate, useLocation, useOutletContext } from "react-router-dom";
 import {
   // CModalHeader,
   // CModalTitle,
@@ -14,8 +15,8 @@ import {
   CInputGroup,
   CInputGroupText,
   CModal,
-  CModalBody,
-  CModalFooter,
+  // CModalBody,
+  // CModalFooter,
   CRow,
 } from "@coreui/react";
 import { cilLockLocked, cilUser } from "@coreui/icons";
@@ -23,15 +24,15 @@ import CIcon from "@coreui/icons-react";
 
 import apiUrl from "../../../constants/apiUrl.constant";
 import useAuth from "../../../hooks/useAuth";
-import { ModalProps } from "../../../interfaces";
+import { ModalEnum, ModalProps } from "../../../interfaces";
 import { axiosPublic } from "../../../api/axios";
 
-const LoginModal = ({ closeModal, size, modalVisible }: ModalProps) => {
+const LoginModal = ({ closeModal, size, modalVisible, openModal }: ModalProps) => {
   const { setAuth } = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  //const from = location.state?.from?.pathname || "/";
 
   const usernameRef = useRef<HTMLInputElement>();
   const errRef = useRef<HTMLInputElement>();
@@ -39,6 +40,10 @@ const LoginModal = ({ closeModal, size, modalVisible }: ModalProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginErrorMessage, setLoginErrorMessage] = useState("");
+
+  const handleRegisterButton = () => {
+    navigate('/registration');
+  };
 
   const handleSubmit = async () => {
     // e
@@ -62,14 +67,15 @@ const LoginModal = ({ closeModal, size, modalVisible }: ModalProps) => {
       setPassword("");
       closeModal();
     } catch (err) {
+      console.log('err: ', err);
       if (!err?.response) {
-        setLoginErrorMessage("No Server Response");
+        setLoginErrorMessage("Szerverhiba.");
       } else if (err.response?.status === 400) {
-        setLoginErrorMessage("Missing Username or Password");
+        setLoginErrorMessage("A felhasználónév vagy a jelszó nem megfelelő.");
       } else if (err.response?.status === 401) {
-        setLoginErrorMessage("Unauthorized");
+        setLoginErrorMessage("Nincs megfelelő jogosultsága.");
       } else {
-        setLoginErrorMessage("Login Failed");
+        setLoginErrorMessage("Bejelentkezés sikertelen.");
       }
       errRef?.current?.focus();
     }
@@ -90,6 +96,7 @@ const LoginModal = ({ closeModal, size, modalVisible }: ModalProps) => {
           <CCardBody>
             <CForm>
               <h1>Bejelentkezés</h1>
+              { loginErrorMessage && <CAlert color="danger">{loginErrorMessage}</CAlert>}
               <p className="text-medium-emphasis">Lépj be a fiókodba!</p>
               <CInputGroup className="mb-3">
                 <CInputGroupText>
@@ -119,7 +126,7 @@ const LoginModal = ({ closeModal, size, modalVisible }: ModalProps) => {
               </CInputGroup>
               <CRow>
                 <CCol xs={6}>
-                  <CButton color="primary" className="px-4" onClick={handleSubmit}>
+                  <CButton color="primary" className="px-4 text-white" onClick={handleSubmit}>
                     Bejelentkezés
                   </CButton>
                 </CCol>
@@ -138,9 +145,9 @@ const LoginModal = ({ closeModal, size, modalVisible }: ModalProps) => {
               <h2>Regisztráció</h2>
               <p>
                 A regisztrálók elmenthetik kedvezményekkel, akciókkal kapcsolatos beállításaikat és
-                feliratkozhatnak hírlevelünkre.
+                feliratkozhatnak személyre szabott hírlevelünkre.
               </p>
-              <CButton color="primary" className="mt-3" active tabIndex={-1}>
+              <CButton color="primary" className="mt-3 text-white" active tabIndex={-1} onClick={handleRegisterButton}>
                 Regisztrálj most!
               </CButton>
             </div>

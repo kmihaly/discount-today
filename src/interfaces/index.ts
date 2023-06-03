@@ -1,5 +1,5 @@
 import ColorType from "./colorType.interface";
-import { ModalEnum, ModalProps, ModalsVisibility } from "./modal.interface";
+import { ModalEnum, ModalProps, ModalsVisibility, OpenModal } from "./modal.interface";
 import OutletContextData from "./outlet.interface";
 import {
   BaseData,
@@ -20,6 +20,7 @@ export {
   ModalsVisibility,
   Offer,
   OfferCondition,
+  OpenModal,
   OutletContextData,
   SearchCondition,
   StoreGroup,

@@ -4,6 +4,9 @@
 
   &__group {
     border-radius: 0 0 0.375rem 0.375rem;
+    padding: unset !important;
+    display: flex;
+    flex-direction: row;
 
     & > div:nth-child(1) {
       border-radius: 0 0 0 0.375rem;

@@ -3,8 +3,6 @@ import {
   CCallout,
   CCard,
   CCardBody,
-  CCardFooter,
-  CCardGroup,
   CCardHeader,
   CCardImage,
   CCardText,
@@ -32,12 +30,12 @@ const OfferCard = ({ offerData, shouldCardDirectionChange, storeGroupName }: Off
       <CCardHeader className="text-bold">
         {`${offer_name} ${storeGroupName ? "(" + storeGroupName + ")" : ""}`}
       </CCardHeader>
-      <CCardGroup
-        className="offer-card__group flex-fill"
-        style={shouldCardDirectionChange ? { flexFlow: "column" } : {}}
+      <CCardBody
+        className="offer-card__group flex-fill "
+        style={shouldCardDirectionChange ? { flexDirection: "column" } : {}}
       >
-        <CCard
-          className="p-4 flex-fill"
+        <div
+          className="p-3 flex-fill"
           style={shouldCardDirectionChange ? { marginBottom: 0, borderBottomLeftRadius: 0 } : {}}
         >
           <CCardImage src={image} />
@@ -47,27 +45,22 @@ const OfferCard = ({ offerData, shouldCardDirectionChange, storeGroupName }: Off
               {warning}
             </CCallout>
           )}
-        </CCard>
-        <CCard
-          className="text-white bg-primary"
+        </div>
+        <div
+          className="p-3 text-white bg-primary"
           style={{
             borderBottomLeftRadius: shouldCardDirectionChange ? "0.375rem" : "0",
-            flex: "unset",
-            //height: shouldCardDirectionChange ? "auto" : "20rem",
-            marginBottom: shouldCardDirectionChange ? 0 : "initial",
-            width: shouldCardDirectionChange ? "100%" : "11rem",
+            width: shouldCardDirectionChange ? "100%" : "12rem",
           }}
         >
-          <CCardBody>
             <CCardText>{`${formatDate(valid_from)} - ${formatDate(valid_to)}`}</CCardText>
             <CCardText>{description}</CCardText>
 
             <CButton color="light" className="px-4" href={offer_href as string}>
               Érdekel!
             </CButton>
-          </CCardBody>
-        </CCard>
-      </CCardGroup>
+        </div>
+      </CCardBody>
     </CCard>
   );
 };

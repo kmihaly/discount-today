@@ -5,7 +5,7 @@ import ActionCard from "./ActionCard/ActionCard";
 import BaseContext from "../../contexts/BaseProvider";
 import Top5Card from "./Top5Card";
 import { BaseProviderData, OutletContextData } from "../../interfaces";
-import { Burger, Grocery, Money } from "../../assets/action-card-photos";
+import { Burger, GroceryStore, Money } from "../../assets/action-card-photos";
 import { Footer, PageLoader, ShopLogoContainer } from "../../components";
 import { SearchCondition, StoreType } from "../../interfaces/baseData.interface";
 import { useOutletContext } from "react-router-dom";
@@ -54,7 +54,7 @@ const LandingPage = (): JSX.Element => {
                 <CCol xs={12} md={6} lg={4} className="py-2">
                   <ActionCard
                     className="text-light"
-                    href="/search"
+                    href="search"
                     imageSrc={Burger}
                     onClick={() => handleTypeClick(storeTypes[1])}
                     shouldSetActionCards={shouldSetActionCards}
@@ -66,8 +66,8 @@ const LandingPage = (): JSX.Element => {
                 <CCol xs={12} md={6} lg={4} className="py-2">
                   <ActionCard
                     className="text-dark"
-                    href="/search"
-                    imageSrc={Grocery}
+                    href="search"
+                    imageSrc={GroceryStore}
                     onClick={() => handleTypeClick(storeTypes[2])}
                     shouldSetActionCards={shouldSetActionCards}
                     title={`${storeTypes[2].name_plural} AKCIÓI`}
