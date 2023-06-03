@@ -29,9 +29,8 @@ const DefaultLayout = (): JSX.Element => {
   const [showTop5Search, setShowTop5Search] = useState<boolean>(false);
   const [sidebarVisible, setSidebarVisible] = useState<boolean>(false);
 
-  const closeModal = useCallback(() => { console.log('closeModal: ', closeModal); setModalsVisibility(INITIAL_MODALS_VISIBILITY)}, []);
+  const closeModal = useCallback(() => setModalsVisibility(INITIAL_MODALS_VISIBILITY),[]);
   
-
   const toggleSidebar = (state?: boolean) => {
     if (typeof state === "boolean") {
       setSidebarVisible(state);
@@ -41,7 +40,6 @@ const DefaultLayout = (): JSX.Element => {
   };
 
   const openModal = useCallback((modalType: ModalEnum) => {
-  console.log('modalType: ', modalType);
     setModalsVisibility({
       ...INITIAL_MODALS_VISIBILITY,
       [modalType]: true,
@@ -54,8 +52,6 @@ const DefaultLayout = (): JSX.Element => {
     setErrorToastVisible(false);
   };
   
-  console.log('modalsVisibility: ', modalsVisibility);
-
   return (
     <AuthProvider>
       <BaseProvider
